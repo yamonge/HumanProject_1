@@ -181,6 +181,13 @@ function getBookById(bookId) {
     return books.find(book => book.id === bookId) || null;
 }
 
+// ===== 사용자 조회 함수 추가 =====
+
+function getUserById(userId) {
+    const users = getUsers();
+    return users.find(user => user.id === userId) || null;
+}
+
 // ===== 리뷰 관리 - 가이드 "리뷰 시스템" 섹션 =====
 
 function getReviews() {
