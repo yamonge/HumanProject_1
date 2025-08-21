@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - BookReview</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 BookReview</h1>
+            <nav>
+                <a href="index.html">홈</a>
+                <a href="register.html">회원가입</a>
+            </nav>
+        </header>
+        
+        <main class="form-container">
+            <section class="login-section">
+                <h2>🔑 로그인</h2>
+                
+                <form id="loginForm" class="auth-form">
+                    <div class="input-group">
+                        <label for="email">📧 이메일:</label>
+                        <input type="email" id="email" name="email" required 
+                               placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="password">🔒 비밀번호:</label>
+                        <input type="password" id="password" name="password" required 
+                               placeholder="비밀번호를 입력하세요">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">로그인</button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>아직 회원이 아니신가요? <a href="register.html">회원가입</a></p>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="js/data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // 입력값 검증
+                if (!email || !password) {
+                    alert('이메일과 비밀번호를 모두 입력해주세요.');
+                    return;
+                }
+                
+                // 로그인 시도
+                const user = loginUser(email, password);
+                
+                if (user) {
+                    alert(`환영합니다, ${user.name}님!`);
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    window.location.href = 'index.html';
+                } else {
+                    alert('이메일 또는 비밀번호가 틀렸습니다.');
+                    document.getElementById('password').value = ''; // 비밀번호 필드 초기화
+                }
+            });
+        });
+    </script>
+</body>
+</html>

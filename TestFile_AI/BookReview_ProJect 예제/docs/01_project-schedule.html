@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookReview 프로젝트 일정 관리</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .timeline {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 150px 200px 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .phase {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        
+        .duration {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .description {
+            color: #2c3e50;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #667eea;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+        
+        .milestone-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .milestone-table th,
+        .milestone-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .milestone-table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .milestone-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        .status.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.in-progress {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.pending {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .gantt-chart {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        
+        .gantt-table {
+            min-width: 800px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        .gantt-table th,
+        .gantt-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        .gantt-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .gantt-bar {
+            height: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .gantt-planning {
+            background: #3498db;
+        }
+        
+        .gantt-development {
+            background: #e74c3c;
+        }
+        
+        .gantt-testing {
+            background: #f39c12;
+        }
+        
+        .gantt-documentation {
+            background: #9b59b6;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .gantt-chart {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 BookReview 프로젝트 일정 관리</h1>
+            <div class="subtitle">소프트웨어 개발 프로세스 전체 일정표</div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">28</div>
+                <div class="stat-label">총 개발일수</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">주요 단계</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">파일 개수</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7,303</div>
+                <div class="stat-label">총 코드 라인</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 프로젝트 타임라인</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="phase">1단계: 기획</div>
+                    <div class="duration">
+                        <i>📅</i> 2025.08.01 - 08.07 (7일)
+                    </div>
+                    <div class="description">
+                        프로젝트 계획 수립, 요구사항 분석, ERD 설계, WBS 작성
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="phase">2단계: 설계</div>
+                    <div class="duration">
+                        <i>🎨</i> 2025.08.08 - 08.10 (3일)
+                    </div>
+                    <div class="description">
+                        UI/UX 설계, 데이터베이스 설계, 테이블 정의서 작성
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="phase">3단계: 기획발표</div>
+                    <div class="duration">
+                        <i>📊</i> 2025.08.11 (1일)
+                    </div>
+                    <div class="description">
+                        기획 발표 준비 및 발표, 피드백 수집
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="phase">4단계: 개발</div>
+                    <div class="duration">
+                        <i>💻</i> 2025.08.12 - 08.20 (9일)
+                    </div>
+                    <div class="description">
+                        HTML, CSS, JavaScript 개발, 기능 구현, 테스트
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="phase">5단계: 테스트</div>
+                    <div class="duration">
+                        <i>🔍</i> 2025.08.21 - 08.23 (3일)
+                    </div>
+                    <div class="description">
+                        기능 테스트, 브라우저 호환성 테스트, 버그 수정
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="phase">6단계: 문서화</div>
+                    <div class="duration">
+                        <i>📝</i> 2025.08.24 - 08.26 (3일)
+                    </div>
+                    <div class="description">
+                        최종 문서 작성, 소스코드 정리, 발표 자료 준비
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="phase">7단계: 최종발표</div>
+                    <div class="duration">
+                        <i>🎯</i> 2025.08.27 - 08.28 (2일)
+                    </div>
+                    <div class="description">
+                        최종 발표, 프로젝트 완료, 회고 및 평가
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📋 주요 마일스톤</h2>
+            <table class="milestone-table">
+                <thead>
+                    <tr>
+                        <th>마일스톤</th>
+                        <th>완료일</th>
+                        <th>주요 산출물</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>요구사항 정의 완료</td>
+                        <td>2025.08.03</td>
+                        <td>요구사항 정의서</td>
+                        <td><span class="status completed">완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>ERD 설계 완료</td>
+                        <td>2025.08.05</td>
+                        <td>ERD 다이어그램, 테이블 정의서</td>
+                        <td><span class="status completed">완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>WBS 작성 완료</td>
+                        <td>2025.08.07</td>
+                        <td>작업 분해 구조도</td>
+                        <td><span class="status completed">완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>기획 발표 완료</td>
+                        <td>2025.08.11</td>
+                        <td>기획발표 PPT</td>
+                        <td><span class="status completed">완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>프론트엔드 개발 완료</td>
+                        <td>2025.08.18</td>
+                        <td>HTML, CSS, JS 파일</td>
+                        <td><span class="status completed">완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>기능 테스트 완료</td>
+                        <td>2025.08.21</td>
+                        <td>테스트 보고서</td>
+                        <td><span class="status completed">완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>최종 문서화 완료</td>
+                        <td>2025.08.26</td>
+                        <td>최종 문서 패키지</td>
+                        <td><span class="status in-progress">진행중</span></td>
+                    </tr>
+                    <tr>
+                        <td>최종 발표</td>
+                        <td>2025.08.28</td>
+                        <td>최종발표 PPT</td>
+                        <td><span class="status pending">예정</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Gantt Chart (간트 차트)</h2>
+            <div class="gantt-chart">
+                <table class="gantt-table">
+                    <thead>
+                        <tr>
+                            <th>작업</th>
+                            <th>8/1-3</th>
+                            <th>8/4-7</th>
+                            <th>8/8-10</th>
+                            <th>8/11</th>
+                            <th>8/12-16</th>
+                            <th>8/17-20</th>
+                            <th>8/21-23</th>
+                            <th>8/24-26</th>
+                            <th>8/27-28</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>요구사항 분석</td>
+                            <td><div class="gantt-bar gantt-planning" style="width: 100%;">&nbsp;</div></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>ERD 설계</td>
+                            <td></td>
+                            <td><div class="gantt-bar gantt-planning" style="width: 100%;">&nbsp;</div></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>UI/UX 설계</td>
+                            <td></td>
+                            <td></td>
+                            <td><div class="gantt-bar gantt-planning" style="width: 100%;">&nbsp;</div></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>기획 발표</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><div class="gantt-bar gantt-planning" style="width: 100%;">&nbsp;</div></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>프론트엔드 개발</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><div class="gantt-bar gantt-development" style="width: 100%;">&nbsp;</div></td>
+                            <td><div class="gantt-bar gantt-development" style="width: 100%;">&nbsp;</div></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>기능 테스트</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><div class="gantt-bar gantt-testing" style="width: 100%;">&nbsp;</div></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>문서화</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><div class="gantt-bar gantt-documentation" style="width: 100%;">&nbsp;</div></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>최종 발표</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><div class="gantt-bar gantt-documentation" style="width: 100%;">&nbsp;</div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ 리스크 관리</h2>
+            <div style="display: grid; gap: 15px;">
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <strong>중간 위험도:</strong> 브라우저 호환성 문제 - 다양한 브라우저에서 테스트 필요
+                </div>
+                <div style="background: #f8d7da; padding: 15px; border-radius: 8px; border-left: 4px solid #dc3545;">
+                    <strong>높은 위험도:</strong> 일정 지연 가능성 - 기능 복잡도가 예상보다 높을 수 있음
+                </div>
+                <div style="background: #d4edda; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                    <strong>낮은 위험도:</strong> 기술적 난이도 - 바닐라 JavaScript로 구현 가능한 수준
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📝 프로젝트 완료 기준</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 모든 요구사항이 구현되어야 함</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 크로스 브라우저 호환성 확보</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 반응형 디자인 완성</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 모든 문서 작성 완료</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 최종 발표 성공적 완료</li>
+                <li style="padding: 8px 0;">✅ 코드 품질 기준 충족</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

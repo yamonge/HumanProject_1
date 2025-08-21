@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 리뷰 - BookReview</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Guide Comment Toggle Button -->
+    <div class="guide-toggle-container">
+        <button class="guide-toggle-btn" id="guideToggleBtn">
+            <i class="fas fa-info-circle"></i> 가이드 활용 설명 보기
+        </button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1><a href="index.html"><i class="fas fa-book"></i> BookReview</a></h1>
+            <nav>
+                <a href="index.html"><i class="fas fa-home"></i> 홈</a>
+                <a href="books.html"><i class="fas fa-book-open"></i> 도서 목록</a>
+                <a href="my-reviews.html" class="active"><i class="fas fa-star"></i> 내 리뷰</a>
+                <div class="user-menu">
+                    <span id="userGreeting" class="user-greeting" style="display: none;"></span>
+                    <a href="login.html" id="loginBtn" class="login-btn"><i class="fas fa-sign-in-alt"></i> 로그인</a>
+                    <a href="register.html" id="registerBtn" class="register-btn"><i class="fas fa-user-plus"></i> 회원가입</a>
+                    <button id="logoutBtn" class="logout-btn" style="display: none;"><i class="fas fa-sign-out-alt"></i> 로그아웃</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h2><i class="fas fa-star"></i> 내 리뷰</h2>
+                <p>작성한 리뷰를 관리하고 독서 기록을 확인하세요</p>
+                
+                <!-- Guide Comment: My Reviews Structure -->
+                <div class="guide-comment" data-section="my-reviews">
+                    <div class="guide-comment-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <strong>가이드 활용: 내 리뷰 페이지</strong>
+                    </div>
+                    <div class="guide-comment-content">
+                        <p><strong>참조:</strong> data.js의 getReviewsByUser() 및 getUserStats() 함수</p>
+                        <ul>
+                            <li>✅ 가이드 ERD Reviews 테이블 구조 완전 활용</li>
+                            <li>✅ userId로 사용자별 리뷰 필터링</li>
+                            <li>✅ 통계 계산 알고리즘 (평균 평점, 추천율)</li>
+                            <li>✅ 리뷰 CRUD 기능 완전 구현</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Required Section -->
+        <section class="login-required" id="loginRequiredSection" style="display: none;">
+            <div class="container">
+                <div class="empty-state">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <h3>로그인이 필요합니다</h3>
+                    <p>내 리뷰를 확인하려면 먼저 로그인해주세요.</p>
+                    <div class="login-buttons">
+                        <a href="login.html" class="btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> 로그인
+                        </a>
+                        <a href="register.html" class="btn-secondary">
+                            <i class="fas fa-user-plus"></i> 회원가입
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Stats Section -->
+        <section class="user-stats-section" id="userStatsSection" style="display: none;">
+            <div class="container">
+                <h3><i class="fas fa-chart-line"></i> 나의 독서 통계</h3>
+                
+                <!-- Guide Comment: User Statistics -->
+                <div class="guide-comment" data-section="user-stats">
+                    <div class="guide-comment-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <strong>가이드 활용: 사용자 통계</strong>
+                    </div>
+                    <div class="guide-comment-content">
+                        <p><strong>참조:</strong> data.js의 getUserStats() 함수</p>
+                        <ul>
+                            <li>✅ 총 리뷰 수 계산 (userReviews.length)</li>
+                            <li>✅ 평균 평점 계산 (reduce 활용)</li>
+                            <li>✅ 추천 도서 비율 계산</li>
+                            <li>✅ 선호 장르 분석 (genreCount 객체)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totalUserReviews">0</h4>
+                            <p>작성한 리뷰</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="avgUserRating">0.0</h4>
+                            <p>평균 평점</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-thumbs-up"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="recommendedCount">0</h4>
+                            <p>추천한 책</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="favoriteGenre">-</h4>
+                            <p>선호 장르</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Management Section -->
+        <section class="reviews-management" id="reviewsManagementSection" style="display: none;">
+            <div class="container">
+                <div class="reviews-header">
+                    <h3><i class="fas fa-list"></i> 내가 작성한 리뷰</h3>
+                    <div class="reviews-controls">
+                        <select id="reviewSortBy">
+                            <option value="newest">최신순</option>
+                            <option value="oldest">오래된순</option>
+                            <option value="rating-high">평점 높은순</option>
+                            <option value="rating-low">평점 낮은순</option>
+                        </select>
+                        <button id="writeNewReviewBtn" class="btn-primary">
+                            <i class="fas fa-plus"></i> 새 리뷰 작성
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading -->
+                <div id="reviewsLoading" class="loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>리뷰를 불러오는 중...</p>
+                </div>
+
+                <!-- Reviews List -->
+                <div class="my-reviews-list" id="myReviewsList">
+                    <!-- 리뷰들이 여기에 동적으로 추가됩니다 -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>BookReview</h4>
+                    <p>독서를 사랑하는 모든 이들을 위한 공간</p>
+                </div>
+                <div class="footer-section">
+                    <h4>바로가기</h4>
+                    <ul>
+                        <li><a href="index.html">홈</a></li>
+                        <li><a href="books.html">도서 목록</a></li>
+                        <li><a href="my-reviews.html">내 리뷰</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>팀 정보</h4>
+                    <p>📧 contact@bookreview.com</p>
+                    <p>📞 02-1234-5678</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BookReview Team. Made with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Edit Review Modal -->
+    <div class="modal-overlay" id="editReviewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> 리뷰 수정</h3>
+                <button class="modal-close" id="closeEditReviewModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-body" id="editReviewForm">
+                <input type="hidden" id="editReviewId">
+                
+                <div class="form-group">
+                    <label>책 정보</label>
+                    <div class="book-info-display" id="editBookInfo">
+                        <!-- 책 정보가 여기에 표시됩니다 -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editRating">평점 *</label>
+                    <div class="rating-input">
+                        <div class="star-rating" id="editStarRating">
+                            <span class="star" data-rating="1"><i class="far fa-star"></i></span>
+                            <span class="star" data-rating="2"><i class="far fa-star"></i></span>
+                            <span class="star" data-rating="3"><i class="far fa-star"></i></span>
+                            <span class="star" data-rating="4"><i class="far fa-star"></i></span>
+                            <span class="star" data-rating="5"><i class="far fa-star"></i></span>
+                        </div>
+                        <input type="hidden" id="editRating" name="rating" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editContent">리뷰 내용 *</label>
+                    <textarea id="editContent" name="content" rows="5" required 
+                              placeholder="이 책에 대한 생각을 자유롭게 적어보세요..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="editIsRecommended" name="isRecommended">
+                        <span class="checkmark"></span>
+                        이 책을 다른 사람에게 추천하겠습니다
+                    </label>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelEditReview">취소</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> 수정 완료
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/my-reviews.js"></script>
+</body>
+</html>

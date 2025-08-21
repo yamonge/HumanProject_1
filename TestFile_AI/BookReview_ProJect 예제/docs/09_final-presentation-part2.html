@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookReview 최종발표 Part 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #0f1419;
+        }
+        
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            min-height: 650px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .slide h2 {
+            color: #34495e;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .demo-section {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .browser-mockup {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .browser-header {
+            background: #e9ecef;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .browser-dots {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+        
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27ca3f; }
+        
+        .browser-url {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            flex: 1;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .browser-content {
+            padding: 30px;
+            background: white;
+            min-height: 300px;
+        }
+        
+        .feature-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .demo-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid #667eea;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .demo-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .demo-subtitle {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .demo-body {
+            padding: 25px;
+        }
+        
+        .demo-feature {
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .demo-feature:last-child {
+            border-bottom: none;
+        }
+        
+        .demo-icon {
+            font-size: 1.5em;
+            color: #667eea;
+            min-width: 25px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(145deg, #fff, #f8f9fa);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #28a745;
+        }
+        
+        .metric-score {
+            font-size: 3em;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .metric-desc {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .challenge-section {
+            background: linear-gradient(145deg, #fff3cd, #ffeaa7);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 6px solid #f39c12;
+            margin: 25px 0;
+        }
+        
+        .challenge-title {
+            color: #8c6d1f;
+            font-weight: bold;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .challenge-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .challenge-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .challenge-solution {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        .team-section {
+            background: linear-gradient(145deg, #e8f5e8, #c8e6c9);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 6px solid #4caf50;
+            margin: 25px 0;
+        }
+        
+        .team-title {
+            color: #2e7d32;
+            font-weight: bold;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .team-member {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+        }
+        
+        .member-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .member-role {
+            color: #4caf50;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .member-contribution {
+            color: #666;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 25px;
+                min-height: auto;
+            }
+            
+            .feature-demo {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .challenge-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        
+        <!-- Slide 6: 실제 화면 데모 -->
+        <div class="slide">
+            <div class="slide-number">6/15</div>
+            <h2>📱 실제 화면 데모</h2>
+            
+            <div class="demo-section">
+                <div class="browser-mockup">
+                    <div class="browser-header">
+                        <div class="browser-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="browser-url">https://bookreview-platform.com</div>
+                    </div>
+                    <div class="browser-content">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                            <h2 style="margin-bottom: 10px;">📚 BookReview</h2>
+                            <p style="opacity: 0.9;">당신의 독서 경험을 공유하세요</p>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 2.5em; color: #667eea; margin-bottom: 10px;">📖</div>
+                                <h4>도서 검색</h4>
+                                <p style="color: #666; font-size: 0.9em;">제목, 저자로 빠른 검색</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 2.5em; color: #28a745; margin-bottom: 10px;">⭐</div>
+                                <h4>리뷰 작성</h4>
+                                <p style="color: #666; font-size: 0.9em;">별점과 상세 리뷰</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 2.5em; color: #ffc107; margin-bottom: 10px;">📊</div>
+                                <h4>통계 분석</h4>
+                                <p style="color: #666; font-size: 0.9em;">개인 독서 패턴</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: 주요 기능 시연 -->
+        <div class="slide">
+            <div class="slide-number">7/15</div>
+            <h2>⚡ 주요 기능 시연</h2>
+            
+            <div class="feature-demo">
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <div class="demo-title">🔍 실시간 검색</div>
+                        <div class="demo-subtitle">즉시 반응하는 스마트 검색</div>
+                    </div>
+                    <div class="demo-body">
+                        <div class="demo-feature">
+                            <div class="demo-icon">⚡</div>
+                            <div>타이핑 중 실시간 결과 표시</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">🎯</div>
+                            <div>제목, 저자, 출판사 통합 검색</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">🔄</div>
+                            <div>Debouncing으로 성능 최적화</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">🏷️</div>
+                            <div>장르별 스마트 필터링</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <div class="demo-title">⭐ 별점 시스템</div>
+                        <div class="demo-subtitle">직관적인 평점 인터페이스</div>
+                    </div>
+                    <div class="demo-body">
+                        <div class="demo-feature">
+                            <div class="demo-icon">🌟</div>
+                            <div>1-5점 별점 입력</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">📊</div>
+                            <div>평점 통계 자동 계산</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">👍</div>
+                            <div>추천/비추천 표시</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">🔒</div>
+                            <div>사용자당 1개 리뷰 제한</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <div class="demo-title">📱 반응형 UI</div>
+                        <div class="demo-subtitle">모든 디바이스 완벽 지원</div>
+                    </div>
+                    <div class="demo-body">
+                        <div class="demo-feature">
+                            <div class="demo-icon">📱</div>
+                            <div>모바일 퍼스트 디자인</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">💻</div>
+                            <div>데스크톱 최적화</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">📐</div>
+                            <div>유연한 그리드 레이아웃</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">🎨</div>
+                            <div>일관된 시각적 경험</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <div class="demo-title">📈 개인 대시보드</div>
+                        <div class="demo-subtitle">맞춤형 독서 분석</div>
+                    </div>
+                    <div class="demo-body">
+                        <div class="demo-feature">
+                            <div class="demo-icon">📊</div>
+                            <div>리뷰 작성 통계</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">🎯</div>
+                            <div>선호 장르 분석</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">📅</div>
+                            <div>월별 독서 활동</div>
+                        </div>
+                        <div class="demo-feature">
+                            <div class="demo-icon">🏆</div>
+                            <div>개인 성취 지표</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 8: 성능 및 품질 지표 -->
+        <div class="slide">
+            <div class="slide-number">8/15</div>
+            <h2>📊 성능 및 품질 지표</h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-score">2.1s</div>
+                    <div class="metric-label">초기 로딩 시간</div>
+                    <div class="metric-desc">최적화된 리소스 로딩</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-score">98%</div>
+                    <div class="metric-label">Lighthouse 성능</div>
+                    <div class="metric-desc">구글 성능 지표</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-score">100%</div>
+                    <div class="metric-label">기능 완성도</div>
+                    <div class="metric-desc">모든 요구사항 구현</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-score">95%</div>
+                    <div class="metric-label">코드 커버리지</div>
+                    <div class="metric-desc">테스트 완료 비율</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-score">AAA</div>
+                    <div class="metric-label">웹 접근성</div>
+                    <div class="metric-desc">WCAG 2.1 준수</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-score">A+</div>
+                    <div class="metric-label">보안 등급</div>
+                    <div class="metric-desc">클라이언트 보안</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 9: 도전과제와 해결책 -->
+        <div class="slide">
+            <div class="slide-number">9/15</div>
+            <h2>🛠️ 도전과제와 해결책</h2>
+            
+            <div class="challenge-section">
+                <div class="challenge-title">
+                    <span>⚡</span> 주요 기술적 도전
+                </div>
+                <div class="challenge-grid">
+                    <div class="challenge-item">
+                        <div class="challenge-name">💾 localStorage 관계형 데이터</div>
+                        <div class="challenge-solution">
+                            UUID 기반 외래키 구현, JavaScript 배열 메서드를 활용한 
+                            JOIN 연산 시뮬레이션으로 복잡한 데이터 관계 관리
+                        </div>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-name">🔍 실시간 검색 성능</div>
+                        <div class="challenge-solution">
+                            Debouncing 기법 (300ms) 적용, 검색 결과 캐싱, 
+                            인덱싱 전략으로 빠른 검색 성능 달성
+                        </div>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-name">📱 크로스 브라우저 호환성</div>
+                        <div class="challenge-solution">
+                            ES6+ 기능의 브라우저 지원 확인, Polyfill 적용, 
+                            다양한 브라우저에서 일관된 경험 보장
+                        </div>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-name">🎨 반응형 디자인 일관성</div>
+                        <div class="challenge-solution">
+                            CSS Grid + Flexbox 조합, 모바일 퍼스트 접근, 
+                            상대 단위 사용으로 유연한 레이아웃 구현
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 10: 팀워크와 협업 -->
+        <div class="slide">
+            <div class="slide-number">10/15</div>
+            <h2>👥 팀워크와 협업</h2>
+            
+            <div class="team-section">
+                <div class="team-title">
+                    <span>🤝</span> 성공적인 협업 요소
+                </div>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">📋</div>
+                        <div class="member-name">프로젝트 관리</div>
+                        <div class="member-role">체계적 일정 관리</div>
+                        <div class="member-contribution">
+                            일일 스탠드업, 주간 리뷰,<br>
+                            마일스톤 추적 및 품질 관리
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">💻</div>
+                        <div class="member-name">코드 리뷰</div>
+                        <div class="member-role">품질 보증</div>
+                        <div class="member-contribution">
+                            동료 코드 리뷰, 베스트 프랙티스<br>
+                            공유, 버그 사전 방지
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">📚</div>
+                        <div class="member-name">지식 공유</div>
+                        <div class="member-role">학습 문화</div>
+                        <div class="member-contribution">
+                            기술 세미나, 문제 해결<br>
+                            경험 공유, 집단 지성 활용
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">🎯</div>
+                        <div class="member-name">목표 공유</div>
+                        <div class="member-role">비전 일치</div>
+                        <div class="member-contribution">
+                            명확한 목표 설정, 역할 분담,<br>
+                            진행 상황 투명 공유
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(145deg, #fff3e0, #ffe0b2); padding: 25px; border-radius: 15px; border-left: 6px solid #ff9800; margin-top: 25px;">
+                <h3 style="color: #e65100; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <span>🏆</span> 협업의 성과
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="color: #bf360c;"><strong>⏱️ 일정 준수:</strong> 28일 계획 100% 완료</div>
+                    <div style="color: #bf360c;"><strong>🔧 품질 향상:</strong> 0개 미해결 버그</div>
+                    <div style="color: #bf360c;"><strong>💡 혁신:</strong> 창의적 문제 해결</div>
+                    <div style="color: #bf360c;"><strong>📈 성장:</strong> 개인 역량 발전</div>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <a href="09_final-presentation-part1.html" class="nav-button">← Part 1 (개요)</a>
+                <span style="color: #1976d2; font-weight: 600;">Part 2: 데모 & 협업</span>
+                <a href="09_final-presentation-part3.html" class="nav-button">Part 3 (성과) →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
