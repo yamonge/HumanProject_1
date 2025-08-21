@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 가이드 - BookReview 사이트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .project-info {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .phase {
+            background: #f8f9fa;
+            margin: 20px 0;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        
+        .phase:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .phase h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .phase-number {
+            background: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+        
+        .timeline {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 3px solid #e74c3c;
+        }
+        
+        .deliverables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .deliverable-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #bdc3c7;
+            transition: all 0.3s ease;
+        }
+        
+        .deliverable-item:hover {
+            border-color: #3498db;
+            transform: translateY(-3px);
+        }
+        
+        .deliverable-item h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .term-explanation {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .term-explanation .term {
+            font-weight: bold;
+            color: #856404;
+        }
+        
+        .checklist {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .checklist h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+        
+        .checklist ul {
+            list-style: none;
+        }
+        
+        .checklist li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .checklist li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .next-step {
+            background: #17a2b8;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .next-step a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 BookReview 프로젝트</h1>
+            <div class="subtitle">나만의 북 리뷰 사이트 만들기</div>
+            <div class="project-info">
+                <strong>프로젝트 기간:</strong> 4주 | 
+                <strong>기술 스택:</strong> HTML, CSS, JavaScript, jQuery | 
+                <strong>팀 구성:</strong> 3-4명
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="warning">
+                <strong>🔥 중요!</strong> 이 가이드는 프로젝트 관리를 처음 해보는 완전 초보자를 위한 것입니다. 
+                각 용어와 과정을 차근차근 따라가면 성공적으로 프로젝트를 완료할 수 있습니다.
+            </div>
+            
+            <div class="phase">
+                <h2>
+                    <span class="phase-number">1</span>
+                    기획 단계 (1주차)
+                </h2>
+                <p>프로젝트를 시작하기 전에 <strong>"무엇을 만들 것인가"</strong>를 명확히 정하는 단계입니다.</p>
+                
+                <div class="timeline">
+                    <strong>📅 기간:</strong> 1주일 (월요일~일요일)<br>
+                    <strong>👥 참여자:</strong> 팀 전체<br>
+                    <strong>🎯 목표:</strong> 프로젝트 전체 계획 세우기
+                </div>
+                
+                <div class="deliverables">
+                    <div class="deliverable-item">
+                        <h3>📋 기획문서</h3>
+                        <p>프로젝트가 뭔지, 왜 만드는지, 누가 사용할지를 정리한 문서</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>📊 ERD</h3>
+                        <p>데이터베이스 설계도 - 어떤 정보들을 저장할지 그림으로 그리는 것</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>📝 요구사항 정의서</h3>
+                        <p>사이트에서 할 수 있는 모든 기능들을 목록으로 만든 것</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>🗂️ WBS</h3>
+                        <p>큰 일을 작은 일들로 나누어서 정리한 것 (할 일 목록)</p>
+                    </div>
+                </div>
+                
+                <div class="term-explanation">
+                    <div class="term">💡 용어 설명</div>
+                    <strong>ERD:</strong> Entity Relationship Diagram - 데이터들 사이의 관계를 그림으로 그린 것<br>
+                    <strong>WBS:</strong> Work Breakdown Structure - 큰 프로젝트를 작은 작업들로 나눈 구조
+                </div>
+                
+                <div class="checklist">
+                    <h3>✅ 1주차 체크리스트</h3>
+                    <ul>
+                        <li>팀원 역할 분담 완료</li>
+                        <li>프로젝트 주제 최종 결정</li>
+                        <li>기획문서 1차 완성</li>
+                        <li>ERD 초안 작성</li>
+                        <li>기능 목록 정리</li>
+                        <li>기획발표 PPT 준비</li>
+                        <li>기획발표 실시</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="phase">
+                <h2>
+                    <span class="phase-number">2</span>
+                    개발 단계 (2-3주차)
+                </h2>
+                <p>실제로 웹사이트를 <strong>코딩하는</strong> 단계입니다.</p>
+                
+                <div class="timeline">
+                    <strong>📅 기간:</strong> 2주일 (2주차~3주차)<br>
+                    <strong>👥 참여자:</strong> 팀 전체 (역할별로 나누어서)<br>
+                    <strong>🎯 목표:</strong> 작동하는 웹사이트 완성
+                </div>
+                
+                <div class="deliverables">
+                    <div class="deliverable-item">
+                        <h3>🏗️ HTML 구조</h3>
+                        <p>웹페이지의 뼈대 - 제목, 버튼, 입력창 등의 구조</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>🎨 CSS 디자인</h3>
+                        <p>웹페이지를 예쁘게 꾸미는 코드 - 색깔, 크기, 배치 등</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>⚡ JavaScript 기능</h3>
+                        <p>웹페이지가 동작하게 하는 코드 - 버튼 클릭, 데이터 저장 등</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>📱 반응형 디자인</h3>
+                        <p>컴퓨터, 태블릿, 휴대폰에서 모두 잘 보이게 만드는 것</p>
+                    </div>
+                </div>
+                
+                <div class="checklist">
+                    <h3>✅ 2-3주차 체크리스트</h3>
+                    <ul>
+                        <li>메인 페이지 HTML 완성</li>
+                        <li>전체 페이지 CSS 스타일링</li>
+                        <li>회원가입/로그인 기능</li>
+                        <li>책 등록/수정/삭제 기능</li>
+                        <li>리뷰 작성/수정/삭제 기능</li>
+                        <li>검색 기능</li>
+                        <li>반응형 디자인 적용</li>
+                        <li>브라우저 테스트</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="phase">
+                <h2>
+                    <span class="phase-number">3</span>
+                    마무리 단계 (4주차)
+                </h2>
+                <p>완성된 프로젝트를 <strong>정리하고 발표하는</strong> 단계입니다.</p>
+                
+                <div class="timeline">
+                    <strong>📅 기간:</strong> 1주일 (4주차)<br>
+                    <strong>👥 참여자:</strong> 팀 전체<br>
+                    <strong>🎯 목표:</strong> 프로젝트 완성 및 발표
+                </div>
+                
+                <div class="deliverables">
+                    <div class="deliverable-item">
+                        <h3>📁 최종 소스</h3>
+                        <p>완성된 모든 코드 파일들을 정리한 것</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>📖 최종문서</h3>
+                        <p>프로젝트 전체를 설명하는 완성본 문서</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>🎬 최종발표 PPT</h3>
+                        <p>다른 사람들에게 프로젝트를 소개할 발표자료</p>
+                    </div>
+                    
+                    <div class="deliverable-item">
+                        <h3>🎤 최종발표</h3>
+                        <p>완성된 프로젝트를 사람들 앞에서 발표하기</p>
+                    </div>
+                </div>
+                
+                <div class="checklist">
+                    <h3>✅ 4주차 체크리스트</h3>
+                    <ul>
+                        <li>모든 버그 수정</li>
+                        <li>코드 정리 및 주석 추가</li>
+                        <li>사용법 설명서 작성</li>
+                        <li>최종발표 PPT 완성</li>
+                        <li>발표 연습</li>
+                        <li>최종 발표 실시</li>
+                        <li>프로젝트 회고</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="next-step">
+                <h3>🚀 다음 단계</h3>
+                <p>이제 구체적인 1단계 기획을 시작해봅시다!</p>
+                <a href="step1_planning.html">1단계: 기획 단계로 이동 →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

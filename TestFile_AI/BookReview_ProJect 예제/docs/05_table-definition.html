@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookReview 테이블 정의서</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .table-definition {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .table-icon {
+            font-size: 2em;
+        }
+        
+        .table-title {
+            flex: 1;
+        }
+        
+        .table-title h3 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+        
+        .table-subtitle {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .table-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            background: #e8f4fd;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #495057;
+            font-size: 0.9em;
+        }
+        
+        .info-value {
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        
+        .fields-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .fields-table th,
+        .fields-table td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .fields-table th {
+            background: #f1f3f4;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .fields-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .field-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .field-type {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .field-constraint {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .constraint-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .pk {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .fk {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .not-null {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .unique {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .auto {
+            background: #e1f5fe;
+            color: #0277bd;
+        }
+        
+        .field-description {
+            color: #6c757d;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .indexes-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .indexes-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .index-list {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .index-item {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 4px solid #28a745;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .index-name {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .index-type {
+            background: #d4edda;
+            color: #155724;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .relationships-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff3e0;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .relationships-title {
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .relationship-item {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 4px solid #ff9800;
+            margin-bottom: 10px;
+        }
+        
+        .relationship-text {
+            color: #2c3e50;
+            font-size: 0.95em;
+        }
+        
+        .sample-data {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f5e8;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .sample-title {
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sample-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .sample-table th,
+        .sample-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .sample-table th {
+            background: #f1f3f4;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .sample-table td {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #667eea;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 1.1em;
+        }
+        
+        .data-dictionary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .dictionary-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dictionary-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .dictionary-table th,
+        .dictionary-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .dictionary-table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .table-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .fields-table {
+                font-size: 0.9em;
+            }
+            
+            .fields-table th,
+            .fields-table td {
+                padding: 10px 8px;
+            }
+            
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ BookReview 테이블 정의서</h1>
+            <div class="subtitle">Database Table Specifications</div>
+            <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">
+                데이터베이스 테이블의 상세 스펙 및 관계 정의
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 데이터베이스 개요</h2>
+            <div class="summary-stats">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">핵심 테이블</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">17</div>
+                    <div class="stat-label">총 컬럼 수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Primary Keys</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Foreign Keys</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">인덱스</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">localStorage</div>
+                    <div class="stat-label">저장 방식</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Users 테이블 -->
+        <div class="section">
+            <div class="table-definition">
+                <div class="table-header">
+                    <div class="table-icon">👤</div>
+                    <div class="table-title">
+                        <h3>Users 테이블</h3>
+                        <div class="table-subtitle">사용자 정보 관리</div>
+                    </div>
+                </div>
+                
+                <div class="table-info">
+                    <div class="info-item">
+                        <div class="info-label">테이블명</div>
+                        <div class="info-value">users</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">용도</div>
+                        <div class="info-value">회원 정보 저장</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">컬럼 수</div>
+                        <div class="info-value">5개</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">예상 레코드 수</div>
+                        <div class="info-value">50-100개</div>
+                    </div>
+                </div>
+                
+                <table class="fields-table">
+                    <thead>
+                        <tr>
+                            <th>컬럼명</th>
+                            <th>데이터 타입</th>
+                            <th>제약조건</th>
+                            <th>설명</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="field-name">id</td>
+                            <td><span class="field-type">VARCHAR(36)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge pk">PK</span>
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                사용자 고유 식별자 (UUID 형태)<br>
+                                예: "user-12345678-abcd-ef01-2345-678901234567"
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">username</td>
+                            <td><span class="field-type">VARCHAR(50)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                사용자명 (3-20자)<br>
+                                회원가입 시 중복 확인 필요
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">email</td>
+                            <td><span class="field-type">VARCHAR(100)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                                <span class="constraint-badge unique">UNIQUE</span>
+                            </td>
+                            <td class="field-description">
+                                이메일 주소 (로그인 ID로 사용)<br>
+                                이메일 형식 검증 및 중복 방지
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">password</td>
+                            <td><span class="field-type">VARCHAR(255)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                암호화된 비밀번호<br>
+                                최소 8자, 영문+숫자 조합 필요
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">joinDate</td>
+                            <td><span class="field-type">DATETIME</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge auto">DEFAULT NOW</span>
+                            </td>
+                            <td class="field-description">
+                                회원가입 일시<br>
+                                ISO 8601 형식으로 저장
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="indexes-section">
+                    <div class="indexes-title">
+                        <span>⚡</span> 인덱스 정보
+                    </div>
+                    <div class="index-list">
+                        <div class="index-item">
+                            <span class="index-name">PRIMARY KEY (id)</span>
+                            <span class="index-type">UNIQUE</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">UNIQUE INDEX (email)</span>
+                            <span class="index-type">UNIQUE</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">INDEX (username)</span>
+                            <span class="index-type">STANDARD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sample-data">
+                    <div class="sample-title">
+                        <span>📝</span> 샘플 데이터
+                    </div>
+                    <table class="sample-table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>username</th>
+                                <th>email</th>
+                                <th>password</th>
+                                <th>joinDate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>user-001</td>
+                                <td>독서왕김철수</td>
+                                <td>book@example.com</td>
+                                <td>***encrypted***</td>
+                                <td>2025-08-01T10:30:00</td>
+                            </tr>
+                            <tr>
+                                <td>user-002</td>
+                                <td>리뷰어박영희</td>
+                                <td>review@example.com</td>
+                                <td>***encrypted***</td>
+                                <td>2025-08-02T14:15:30</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Books 테이블 -->
+        <div class="section">
+            <div class="table-definition">
+                <div class="table-header">
+                    <div class="table-icon">📚</div>
+                    <div class="table-title">
+                        <h3>Books 테이블</h3>
+                        <div class="table-subtitle">도서 정보 관리</div>
+                    </div>
+                </div>
+                
+                <div class="table-info">
+                    <div class="info-item">
+                        <div class="info-label">테이블명</div>
+                        <div class="info-value">books</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">용도</div>
+                        <div class="info-value">도서 메타데이터 저장</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">컬럼 수</div>
+                        <div class="info-value">9개</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">예상 레코드 수</div>
+                        <div class="info-value">100-500개</div>
+                    </div>
+                </div>
+                
+                <table class="fields-table">
+                    <thead>
+                        <tr>
+                            <th>컬럼명</th>
+                            <th>데이터 타입</th>
+                            <th>제약조건</th>
+                            <th>설명</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="field-name">id</td>
+                            <td><span class="field-type">VARCHAR(36)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge pk">PK</span>
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                도서 고유 식별자 (UUID 형태)<br>
+                                예: "book-87654321-dcba-fe10-5432-109876543210"
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">title</td>
+                            <td><span class="field-type">VARCHAR(200)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                도서 제목 (필수 입력)<br>
+                                검색의 주요 키워드로 사용
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">author</td>
+                            <td><span class="field-type">VARCHAR(100)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                저자명 (필수 입력)<br>
+                                저자별 검색 및 필터링에 사용
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">publisher</td>
+                            <td><span class="field-type">VARCHAR(100)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge">NULLABLE</span>
+                            </td>
+                            <td class="field-description">
+                                출판사명 (선택 입력)<br>
+                                출판사별 분류에 사용
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">genre</td>
+                            <td><span class="field-type">VARCHAR(50)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge">NULLABLE</span>
+                            </td>
+                            <td class="field-description">
+                                장르 분류 (선택 입력)<br>
+                                소설, 에세이, 자기계발, 과학, IT, 경제경영, 인문, 예술 등
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">publishDate</td>
+                            <td><span class="field-type">DATE</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge">NULLABLE</span>
+                            </td>
+                            <td class="field-description">
+                                출간일 (선택 입력)<br>
+                                YYYY-MM-DD 형식
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">description</td>
+                            <td><span class="field-type">TEXT</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge">NULLABLE</span>
+                            </td>
+                            <td class="field-description">
+                                도서 소개 및 줄거리 (선택 입력)<br>
+                                최대 2000자까지 입력 가능
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">addedBy</td>
+                            <td><span class="field-type">VARCHAR(36)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge fk">FK</span>
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                도서 추가한 사용자 ID<br>
+                                Users.id 참조 (권한 관리용)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">addedDate</td>
+                            <td><span class="field-type">DATETIME</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge auto">DEFAULT NOW</span>
+                            </td>
+                            <td class="field-description">
+                                도서 등록 일시<br>
+                                ISO 8601 형식으로 저장
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="indexes-section">
+                    <div class="indexes-title">
+                        <span>⚡</span> 인덱스 정보
+                    </div>
+                    <div class="index-list">
+                        <div class="index-item">
+                            <span class="index-name">PRIMARY KEY (id)</span>
+                            <span class="index-type">UNIQUE</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">INDEX (title)</span>
+                            <span class="index-type">FULLTEXT</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">INDEX (author)</span>
+                            <span class="index-type">STANDARD</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">INDEX (genre)</span>
+                            <span class="index-type">STANDARD</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">INDEX (addedBy)</span>
+                            <span class="index-type">FK</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relationships-section">
+                    <div class="relationships-title">
+                        <span>🔗</span> 관계 정보
+                    </div>
+                    <div class="relationship-item">
+                        <div class="relationship-text">
+                            <strong>addedBy</strong> → Users.id (외래키)<br>
+                            도서를 등록한 사용자를 참조하며, 해당 사용자만 도서를 수정/삭제할 수 있음
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sample-data">
+                    <div class="sample-title">
+                        <span>📝</span> 샘플 데이터
+                    </div>
+                    <table class="sample-table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>title</th>
+                                <th>author</th>
+                                <th>genre</th>
+                                <th>addedBy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>book-001</td>
+                                <td>클린 코드</td>
+                                <td>로버트 C. 마틴</td>
+                                <td>IT</td>
+                                <td>user-001</td>
+                            </tr>
+                            <tr>
+                                <td>book-002</td>
+                                <td>데미안</td>
+                                <td>헤르만 헤세</td>
+                                <td>소설</td>
+                                <td>user-002</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reviews 테이블 -->
+        <div class="section">
+            <div class="table-definition">
+                <div class="table-header">
+                    <div class="table-icon">⭐</div>
+                    <div class="table-title">
+                        <h3>Reviews 테이블</h3>
+                        <div class="table-subtitle">도서 리뷰 관리</div>
+                    </div>
+                </div>
+                
+                <div class="table-info">
+                    <div class="info-item">
+                        <div class="info-label">테이블명</div>
+                        <div class="info-value">reviews</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">용도</div>
+                        <div class="info-value">사용자 도서 리뷰 저장</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">컬럼 수</div>
+                        <div class="info-value">7개</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">예상 레코드 수</div>
+                        <div class="info-value">500-2000개</div>
+                    </div>
+                </div>
+                
+                <table class="fields-table">
+                    <thead>
+                        <tr>
+                            <th>컬럼명</th>
+                            <th>데이터 타입</th>
+                            <th>제약조건</th>
+                            <th>설명</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="field-name">id</td>
+                            <td><span class="field-type">VARCHAR(36)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge pk">PK</span>
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                리뷰 고유 식별자 (UUID 형태)<br>
+                                예: "review-11223344-aabb-ccdd-eeff-112233445566"
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">userId</td>
+                            <td><span class="field-type">VARCHAR(36)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge fk">FK</span>
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                리뷰 작성자 ID<br>
+                                Users.id 참조 (작성자 식별)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">bookId</td>
+                            <td><span class="field-type">VARCHAR(36)</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge fk">FK</span>
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                리뷰 대상 도서 ID<br>
+                                Books.id 참조 (도서 식별)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">rating</td>
+                            <td><span class="field-type">INTEGER</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                                <span class="constraint-badge">CHECK (1≤rating≤5)</span>
+                            </td>
+                            <td class="field-description">
+                                별점 (1-5점)<br>
+                                1=매우 나쁨, 2=나쁨, 3=보통, 4=좋음, 5=매우 좋음
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">content</td>
+                            <td><span class="field-type">TEXT</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge not-null">NOT NULL</span>
+                            </td>
+                            <td class="field-description">
+                                리뷰 내용 (필수 입력)<br>
+                                최소 10자 이상, 최대 1000자
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">isRecommended</td>
+                            <td><span class="field-type">BOOLEAN</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge auto">DEFAULT false</span>
+                            </td>
+                            <td class="field-description">
+                                추천 여부<br>
+                                true=추천, false=비추천
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">reviewDate</td>
+                            <td><span class="field-type">DATETIME</span></td>
+                            <td class="field-constraint">
+                                <span class="constraint-badge auto">DEFAULT NOW</span>
+                            </td>
+                            <td class="field-description">
+                                리뷰 작성 일시<br>
+                                ISO 8601 형식으로 저장
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="indexes-section">
+                    <div class="indexes-title">
+                        <span>⚡</span> 인덱스 정보
+                    </div>
+                    <div class="index-list">
+                        <div class="index-item">
+                            <span class="index-name">PRIMARY KEY (id)</span>
+                            <span class="index-type">UNIQUE</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">UNIQUE INDEX (userId, bookId)</span>
+                            <span class="index-type">COMPOSITE</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">INDEX (bookId)</span>
+                            <span class="index-type">FK</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">INDEX (userId)</span>
+                            <span class="index-type">FK</span>
+                        </div>
+                        <div class="index-item">
+                            <span class="index-name">INDEX (rating)</span>
+                            <span class="index-type">STANDARD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relationships-section">
+                    <div class="relationships-title">
+                        <span>🔗</span> 관계 정보
+                    </div>
+                    <div class="relationship-item">
+                        <div class="relationship-text">
+                            <strong>userId</strong> → Users.id (외래키)<br>
+                            리뷰 작성자를 식별하며, 해당 사용자만 리뷰를 수정/삭제할 수 있음
+                        </div>
+                    </div>
+                    <div class="relationship-item">
+                        <div class="relationship-text">
+                            <strong>bookId</strong> → Books.id (외래키)<br>
+                            리뷰 대상 도서를 식별하며, 도서별 리뷰 목록 조회에 사용
+                        </div>
+                    </div>
+                    <div class="relationship-item">
+                        <div class="relationship-text">
+                            <strong>복합 제약조건</strong>: UNIQUE (userId, bookId)<br>
+                            한 사용자는 하나의 도서에 하나의 리뷰만 작성 가능
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sample-data">
+                    <div class="sample-title">
+                        <span>📝</span> 샘플 데이터
+                    </div>
+                    <table class="sample-table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>userId</th>
+                                <th>bookId</th>
+                                <th>rating</th>
+                                <th>isRecommended</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>review-001</td>
+                                <td>user-001</td>
+                                <td>book-001</td>
+                                <td>5</td>
+                                <td>true</td>
+                            </tr>
+                            <tr>
+                                <td>review-002</td>
+                                <td>user-002</td>
+                                <td>book-001</td>
+                                <td>4</td>
+                                <td>true</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📋 데이터 사전 (Data Dictionary)</h2>
+            <div class="data-dictionary">
+                <div class="dictionary-title">
+                    <span>📚</span> 공통 데이터 타입 정의
+                </div>
+                <table class="dictionary-table">
+                    <thead>
+                        <tr>
+                            <th>데이터 타입</th>
+                            <th>설명</th>
+                            <th>저장 방식</th>
+                            <th>예시</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>UUID</td>
+                            <td>고유 식별자</td>
+                            <td>VARCHAR(36)</td>
+                            <td>"user-12345678-abcd-ef01-2345"</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>이메일 주소</td>
+                            <td>VARCHAR(100)</td>
+                            <td>"user@example.com"</td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td>암호화된 비밀번호</td>
+                            <td>VARCHAR(255)</td>
+                            <td>"$2b$10$encrypted..."</td>
+                        </tr>
+                        <tr>
+                            <td>DateTime</td>
+                            <td>일시</td>
+                            <td>VARCHAR(24)</td>
+                            <td>"2025-08-21T15:30:00.000Z"</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td>날짜</td>
+                            <td>VARCHAR(10)</td>
+                            <td>"2025-08-21"</td>
+                        </tr>
+                        <tr>
+                            <td>Rating</td>
+                            <td>별점</td>
+                            <td>INTEGER</td>
+                            <td>1, 2, 3, 4, 5</td>
+                        </tr>
+                        <tr>
+                            <td>Genre</td>
+                            <td>도서 장르</td>
+                            <td>VARCHAR(50)</td>
+                            <td>"소설", "IT", "자기계발" 등</td>
+                        </tr>
+                        <tr>
+                            <td>Boolean</td>
+                            <td>참/거짓</td>
+                            <td>BOOLEAN</td>
+                            <td>true, false</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔧 구현 세부사항</h2>
+            <div style="background: #f0f9ff; padding: 25px; border-radius: 10px; border-left: 4px solid #0ea5e9; margin-bottom: 20px;">
+                <h3 style="color: #0c4a6e; margin-bottom: 15px;">💾 localStorage 구현</h3>
+                <p style="color: #0f172a; line-height: 1.8; margin-bottom: 15px;">
+                    실제 데이터베이스 대신 브라우저의 localStorage를 사용하여 데이터를 저장합니다.
+                    각 테이블은 별도의 키로 JSON 배열 형태로 저장됩니다.
+                </p>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace;">
+                    <div style="color: #059669; margin-bottom: 5px;">// 저장 구조</div>
+                    <div style="color: #0369a1;">localStorage.setItem('bookReview_users', JSON.stringify(users));</div>
+                    <div style="color: #0369a1;">localStorage.setItem('bookReview_books', JSON.stringify(books));</div>
+                    <div style="color: #0369a1;">localStorage.setItem('bookReview_reviews', JSON.stringify(reviews));</div>
+                </div>
+            </div>
+            
+            <div style="background: #ecfdf5; padding: 25px; border-radius: 10px; border-left: 4px solid #10b981; margin-bottom: 20px;">
+                <h3 style="color: #065f46; margin-bottom: 15px;">🔍 검색 및 인덱싱</h3>
+                <ul style="list-style: none; padding: 0; color: #064e3b;">
+                    <li style="padding: 5px 0;">📌 <strong>제목 검색:</strong> toLowerCase()를 사용한 대소문자 무시 검색</li>
+                    <li style="padding: 5px 0;">📌 <strong>저자 검색:</strong> includes() 메서드를 사용한 부분 일치 검색</li>
+                    <li style="padding: 5px 0;">📌 <strong>장르 필터:</strong> 정확한 일치로 필터링</li>
+                    <li style="padding: 5px 0;">📌 <strong>정렬:</strong> 최신순, 평점순, 이름순 지원</li>
+                </ul>
+            </div>
+            
+            <div style="background: #fef7ff; padding: 25px; border-radius: 10px; border-left: 4px solid #a855f7; margin-bottom: 20px;">
+                <h3 style="color: #581c87; margin-bottom: 15px;">🛡️ 데이터 검증</h3>
+                <ul style="list-style: none; padding: 0; color: #581c87;">
+                    <li style="padding: 5px 0;">✅ <strong>이메일 검증:</strong> 정규표현식으로 형식 확인</li>
+                    <li style="padding: 5px 0;">✅ <strong>비밀번호 강도:</strong> 최소 8자, 영문+숫자 조합</li>
+                    <li style="padding: 5px 0;">✅ <strong>별점 범위:</strong> 1-5 사이 정수값만 허용</li>
+                    <li style="padding: 5px 0;">✅ <strong>중복 방지:</strong> 이메일, (userId+bookId) 조합 중복 체크</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📈 성능 고려사항</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                
+                <div style="background: #fff1f2; padding: 20px; border-radius: 10px; border-left: 4px solid #f43f5e;">
+                    <h4 style="color: #be123c; margin-bottom: 10px;">🚨 주의사항</h4>
+                    <ul style="list-style: none; padding: 0; color: #881337;">
+                        <li style="padding: 3px 0;">⚠️ localStorage 용량 제한 (5-10MB)</li>
+                        <li style="padding: 3px 0;">⚠️ 데이터 영구성 없음 (브라우저 캐시 삭제 시)</li>
+                        <li style="padding: 3px 0;">⚠️ 동시성 제어 불가</li>
+                        <li style="padding: 3px 0;">⚠️ 복잡한 쿼리 성능 제한</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #f0fdf4; padding: 20px; border-radius: 10px; border-left: 4px solid #22c55e;">
+                    <h4 style="color: #15803d; margin-bottom: 10px;">✅ 최적화 방법</h4>
+                    <ul style="list-style: none; padding: 0; color: #166534;">
+                        <li style="padding: 3px 0;">🔧 필요 시에만 데이터 로드</li>
+                        <li style="padding: 3px 0;">🔧 검색 결과 캐싱</li>
+                        <li style="padding: 3px 0;">🔧 페이지네이션으로 메모리 절약</li>
+                        <li style="padding: 3px 0;">🔧 불필요한 속성 제거</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #fefce8; padding: 20px; border-radius: 10px; border-left: 4px solid #eab308;">
+                    <h4 style="color: #a16207; margin-bottom: 10px;">🚀 향후 개선</h4>
+                    <ul style="list-style: none; padding: 0; color: #92400e;">
+                        <li style="padding: 3px 0;">💡 실제 데이터베이스 연동</li>
+                        <li style="padding: 3px 0;">💡 서버사이드 API 구축</li>
+                        <li style="padding: 3px 0;">💡 검색 엔진 최적화</li>
+                        <li style="padding: 3px 0;">💡 실시간 동기화</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

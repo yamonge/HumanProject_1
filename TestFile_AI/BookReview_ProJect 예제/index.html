@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookReview - 나만의 북 리뷰</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Guide Comment Toggle Button -->
+    <div class="guide-toggle-container">
+        <button class="guide-toggle-btn" id="guideToggleBtn">
+            <i class="fas fa-info-circle"></i> 가이드 활용 설명 보기
+        </button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-book"></i> BookReview</h1>
+            <!-- Guide Comment: Header Structure -->
+            <div class="guide-comment" data-section="header">
+                <div class="guide-comment-header">
+                    <i class="fas fa-graduation-cap"></i>
+                    <strong>가이드 활용: 헤더 구조</strong>
+                </div>
+                <div class="guide-comment-content">
+                    <p><strong>참조:</strong> step2_development.html의 "HTML 구조 설계" 섹션</p>
+                    <ul>
+                        <li>✅ 시맨틱 HTML5 &lt;header&gt; 태그 사용</li>
+                        <li>✅ Font Awesome 아이콘 라이브러리 연동 (&lt;i class="fas fa-book"&gt;)</li>
+                        <li>✅ 네비게이션 메뉴 구조 동일 적용</li>
+                        <li>✅ 사용자 인증 상태별 버튼 표시 로직</li>
+                    </ul>
+                </div>
+            </div>
+            <nav>
+                <a href="index.html" class="active"><i class="fas fa-home"></i> 홈</a>
+                <a href="books.html"><i class="fas fa-book-open"></i> 도서 목록</a>
+                <a href="my-reviews.html"><i class="fas fa-star"></i> 내 리뷰</a>
+                <div class="user-menu">
+                    <span id="userGreeting" class="user-greeting" style="display: none;"></span>
+                    <a href="login.html" id="loginBtn" class="login-btn"><i class="fas fa-sign-in-alt"></i> 로그인</a>
+                    <a href="register.html" id="registerBtn" class="register-btn"><i class="fas fa-user-plus"></i> 회원가입</a>
+                    <button id="logoutBtn" class="logout-btn" style="display: none;"><i class="fas fa-sign-out-alt"></i> 로그아웃</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h2>📚 당신만의 독서 여행을 시작해보세요!</h2>
+                <p>좋아하는 책을 기록하고, 다른 독자들의 리뷰도 확인해보세요.</p>
+                <!-- Guide Comment: Hero Section -->
+                <div class="guide-comment" data-section="hero">
+                    <div class="guide-comment-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <strong>가이드 활용: 히어로 섹션</strong>
+                    </div>
+                    <div class="guide-comment-content">
+                        <p><strong>참조:</strong> step2_development.html의 "CSS 그라디언트 스타일" 섹션</p>
+                        <ul>
+                            <li>✅ linear-gradient(135deg, #667eea 0%, #764ba2 100%) 색상 동일</li>
+                            <li>✅ 중앙 정렬 텍스트와 버튼 배치</li>
+                            <li>✅ text-shadow 효과로 가독성 향상</li>
+                            <li>✅ 반응형 폰트 크기 조절</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn-primary" id="addBookBtn">
+                        <i class="fas fa-plus"></i> 새 책 추가
+                    </button>
+                    <button class="btn-secondary" onclick="scrollToSection('recent-reviews')">
+                        <i class="fas fa-eye"></i> 최신 리뷰 보기
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="container">
+                <h3><i class="fas fa-search"></i> 도서 검색</h3>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="책 제목이나 저자를 입력하세요...">
+                    <button id="searchBtn" class="btn-search">
+                        <i class="fas fa-search"></i> 검색
+                    </button>
+                </div>
+                <div class="search-filters">
+                    <select id="genreFilter">
+                        <option value="">모든 장르</option>
+                        <option value="소설">소설</option>
+                        <option value="에세이">에세이</option>
+                        <option value="자기계발">자기계발</option>
+                        <option value="과학">과학</option>
+                        <option value="역사">역사</option>
+                        <option value="경제">경제</option>
+                        <option value="예술">예술</option>
+                    </select>
+                    <select id="sortBy">
+                        <option value="newest">최신순</option>
+                        <option value="rating">평점순</option>
+                        <option value="reviews">리뷰 많은 순</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <h3><i class="fas fa-chart-bar"></i> BookReview 현황</h3>
+                <!-- Guide Comment: Statistics Cards -->
+                <div class="guide-comment" data-section="stats">
+                    <div class="guide-comment-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <strong>가이드 활용: 통계 카드</strong>
+                    </div>
+                    <div class="guide-comment-content">
+                        <p><strong>참조:</strong> step2_development.html의 "카드 디자인" 섹션</p>
+                        <ul>
+                            <li>✅ CSS Grid 레이아웃 (grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)))</li>
+                            <li>✅ box-shadow: 0 5px 15px rgba(0,0,0,0.1) 그림자 효과 동일</li>
+                            <li>✅ hover 시 transform: translateY(-5px) 애니메이션</li>
+                            <li>✅ border-left 색상으로 카테고리 구분</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totalBooks">0</h4>
+                            <p>등록된 도서</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totalReviews">0</h4>
+                            <p>작성된 리뷰</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totalUsers">0</h4>
+                            <p>가입 회원</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="avgRating">0.0</h4>
+                            <p>평균 평점</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Books -->
+        <section class="popular-books">
+            <div class="container">
+                <h3><i class="fas fa-fire"></i> 인기 도서 Top 5</h3>
+                <div class="books-grid" id="popularBooksGrid">
+                    <!-- 인기 책들이 여기에 동적으로 추가됩니다 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Reviews -->
+        <section class="recent-reviews" id="recent-reviews">
+            <div class="container">
+                <h3><i class="fas fa-clock"></i> 최신 리뷰</h3>
+                <div class="reviews-container" id="recentReviewsContainer">
+                    <!-- 최신 리뷰들이 여기에 동적으로 추가됩니다 -->
+                </div>
+                <div class="load-more">
+                    <button class="btn-secondary" id="loadMoreReviews">
+                        <i class="fas fa-chevron-down"></i> 더 보기
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>BookReview</h4>
+                    <p>독서를 사랑하는 모든 이들을 위한 공간</p>
+                </div>
+                <div class="footer-section">
+                    <h4>바로가기</h4>
+                    <ul>
+                        <li><a href="index.html">홈</a></li>
+                        <li><a href="books.html">도서 목록</a></li>
+                        <li><a href="my-reviews.html">내 리뷰</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>팀 정보</h4>
+                    <p>📧 contact@bookreview.com</p>
+                    <p>📞 02-1234-5678</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BookReview Team. Made with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Add Book Modal -->
+    <div class="modal-overlay" id="addBookModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-book-medical"></i> 새 책 추가</h3>
+                <button class="modal-close" id="closeAddBookModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-body" id="addBookForm">
+                <div class="form-group">
+                    <label for="bookTitle">책 제목 *</label>
+                    <input type="text" id="bookTitle" name="title" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookAuthor">저자 *</label>
+                        <input type="text" id="bookAuthor" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookPublisher">출판사</label>
+                        <input type="text" id="bookPublisher" name="publisher">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookGenre">장르</label>
+                        <select id="bookGenre" name="genre">
+                            <option value="">선택하세요</option>
+                            <option value="소설">소설</option>
+                            <option value="에세이">에세이</option>
+                            <option value="자기계발">자기계발</option>
+                            <option value="과학">과학</option>
+                            <option value="역사">역사</option>
+                            <option value="경제">경제</option>
+                            <option value="예술">예술</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookPublishDate">출간일</label>
+                        <input type="date" id="bookPublishDate" name="publishDate">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bookDescription">책 설명</label>
+                    <textarea id="bookDescription" name="description" rows="3" 
+                              placeholder="이 책에 대한 간단한 설명을 입력하세요..."></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelAddBook">취소</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> 저장
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

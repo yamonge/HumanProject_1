@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookReview 프로젝트 문서 모음</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.4em;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+        
+        .stats {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .doc-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .doc-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .doc-header {
+            padding: 25px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .doc-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .doc-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .doc-desc {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        .doc-body {
+            padding: 25px;
+        }
+        
+        .doc-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .doc-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #495057;
+            font-size: 0.9em;
+        }
+        
+        .doc-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            min-width: 18px;
+        }
+        
+        .doc-footer {
+            padding: 20px 25px;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .doc-link {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .doc-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .doc-status {
+            color: #28a745;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .special-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-top: 5px solid #e91e63;
+        }
+        
+        .special-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .presentation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .presentation-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid #e91e63;
+            transition: all 0.3s ease;
+        }
+        
+        .presentation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.15);
+        }
+        
+        .presentation-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #e91e63, #ad1457);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .presentation-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .presentation-desc {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        
+        .presentation-link {
+            background: linear-gradient(135deg, #e91e63, #ad1457);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .presentation-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+        }
+        
+        .app-link {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: inline-block;
+            margin: 30px auto;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+        }
+        
+        .app-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.4);
+        }
+        
+        .footer {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.8);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .header p {
+                font-size: 1.1em;
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .presentation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📚 BookReview</h1>
+            <p>독서 리뷰 플랫폼 프로젝트<br>완전한 문서화 컬렉션</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">9</span>
+                    <span class="stat-label">완성 문서</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">13</span>
+                    <span class="stat-label">개발 파일</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">28</span>
+                    <span class="stat-label">개발 일수</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">완성도</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 프로젝트 문서들 -->
+        <div class="documents-grid">
+            <!-- 01. 프로젝트 일정표 -->
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-number">01</div>
+                    <div class="doc-title">📅 프로젝트 일정표</div>
+                    <div class="doc-desc">28일간의 체계적인 개발 일정과 마일스톤</div>
+                </div>
+                <div class="doc-body">
+                    <ul class="doc-features">
+                        <li><span class="doc-icon">🎯</span>4단계 개발 페이즈</li>
+                        <li><span class="doc-icon">📊</span>주요 마일스톤 관리</li>
+                        <li><span class="doc-icon">⏰</span>일일 작업 계획</li>
+                        <li><span class="doc-icon">🔄</span>진행 상황 추적</li>
+                    </ul>
+                </div>
+                <div class="doc-footer">
+                    <div class="doc-status">✅ 완료</div>
+                    <a href="01_project-schedule.html" class="doc-link">문서 보기</a>
+                </div>
+            </div>
+            
+            <!-- 02. ERD 다이어그램 -->
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-number">02</div>
+                    <div class="doc-title">🗃️ ERD 다이어그램</div>
+                    <div class="doc-desc">데이터베이스 구조와 관계 설계</div>
+                </div>
+                <div class="doc-body">
+                    <ul class="doc-features">
+                        <li><span class="doc-icon">🏗️</span>5개 핵심 테이블</li>
+                        <li><span class="doc-icon">🔗</span>관계형 데이터 모델</li>
+                        <li><span class="doc-icon">📊</span>시각적 구조 표현</li>
+                        <li><span class="doc-icon">🎨</span>인터랙티브 다이어그램</li>
+                    </ul>
+                </div>
+                <div class="doc-footer">
+                    <div class="doc-status">✅ 완료</div>
+                    <a href="02_erd.html" class="doc-link">문서 보기</a>
+                </div>
+            </div>
+            
+            <!-- 03. 요구사항 정의서 -->
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-number">03</div>
+                    <div class="doc-title">📋 요구사항 정의서</div>
+                    <div class="doc-desc">상세한 기능 요구사항과 비기능 요구사항</div>
+                </div>
+                <div class="doc-body">
+                    <ul class="doc-features">
+                        <li><span class="doc-icon">⚙️</span>6개 핵심 기능</li>
+                        <li><span class="doc-icon">🎯</span>명확한 요구사항</li>
+                        <li><span class="doc-icon">📝</span>상세 명세서</li>
+                        <li><span class="doc-icon">✅</span>검증 기준</li>
+                    </ul>
+                </div>
+                <div class="doc-footer">
+                    <div class="doc-status">✅ 완료</div>
+                    <a href="03_requirements.html" class="doc-link">문서 보기</a>
+                </div>
+            </div>
+            
+            <!-- 04. WBS 작업분해구조 -->
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-number">04</div>
+                    <div class="doc-title">🏗️ WBS 작업분해구조</div>
+                    <div class="doc-desc">체계적인 작업 분해와 구조화</div>
+                </div>
+                <div class="doc-body">
+                    <ul class="doc-features">
+                        <li><span class="doc-icon">📊</span>계층적 작업 구조</li>
+                        <li><span class="doc-icon">🎯</span>명확한 역할 분담</li>
+                        <li><span class="doc-icon">⏰</span>시간 배분 계획</li>
+                        <li><span class="doc-icon">🔄</span>진행률 관리</li>
+                    </ul>
+                </div>
+                <div class="doc-footer">
+                    <div class="doc-status">✅ 완료</div>
+                    <a href="04_wbs.html" class="doc-link">문서 보기</a>
+                </div>
+            </div>
+            
+            <!-- 05. 테이블 정의서 -->
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-number">05</div>
+                    <div class="doc-title">🗂️ 테이블 정의서</div>
+                    <div class="doc-desc">데이터베이스 테이블 구조 상세 명세</div>
+                </div>
+                <div class="doc-body">
+                    <ul class="doc-features">
+                        <li><span class="doc-icon">📊</span>5개 테이블 정의</li>
+                        <li><span class="doc-icon">🔑</span>키 관계 설정</li>
+                        <li><span class="doc-icon">📝</span>컬럼 상세 정보</li>
+                        <li><span class="doc-icon">✅</span>제약 조건</li>
+                    </ul>
+                </div>
+                <div class="doc-footer">
+                    <div class="doc-status">✅ 완료</div>
+                    <a href="05_table-definition.html" class="doc-link">문서 보기</a>
+                </div>
+            </div>
+            
+            <!-- 06. 기획발표 PPT -->
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-number">06</div>
+                    <div class="doc-title">📊 기획발표 PPT</div>
+                    <div class="doc-desc">프로젝트 기획 내용 프레젠테이션</div>
+                </div>
+                <div class="doc-body">
+                    <ul class="doc-features">
+                        <li><span class="doc-icon">🎯</span>프로젝트 개요</li>
+                        <li><span class="doc-icon">📈</span>시장 분석</li>
+                        <li><span class="doc-icon">🔧</span>기술 스택</li>
+                        <li><span class="doc-icon">📅</span>일정 계획</li>
+                    </ul>
+                </div>
+                <div class="doc-footer">
+                    <div class="doc-status">✅ 완료</div>
+                    <a href="06_planning-presentation.html" class="doc-link">문서 보기</a>
+                </div>
+            </div>
+            
+            <!-- 07. 개발과정 문서 -->
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-number">07</div>
+                    <div class="doc-title">⚙️ 개발과정 문서</div>
+                    <div class="doc-desc">상세한 개발 프로세스와 기술적 결정사항</div>
+                </div>
+                <div class="doc-body">
+                    <ul class="doc-features">
+                        <li><span class="doc-icon">🔄</span>단계별 개발 과정</li>
+                        <li><span class="doc-icon">🛠️</span>기술적 도전과제</li>
+                        <li><span class="doc-icon">💡</span>문제 해결 과정</li>
+                        <li><span class="doc-icon">📊</span>품질 관리</li>
+                    </ul>
+                </div>
+                <div class="doc-footer">
+                    <div class="doc-status">✅ 완료</div>
+                    <a href="07_development-process.html" class="doc-link">문서 보기</a>
+                </div>
+            </div>
+            
+            <!-- 08. 소스코드 문서 -->
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-number">08</div>
+                    <div class="doc-title">💻 소스코드 문서</div>
+                    <div class="doc-desc">최종 완성된 소스코드 정리 및 설명</div>
+                </div>
+                <div class="doc-body">
+                    <ul class="doc-features">
+                        <li><span class="doc-icon">📁</span>파일 구조 설명</li>
+                        <li><span class="doc-icon">🔧</span>주요 함수 해설</li>
+                        <li><span class="doc-icon">📊</span>코드 통계</li>
+                        <li><span class="doc-icon">🚀</span>배포 가이드</li>
+                    </ul>
+                </div>
+                <div class="doc-footer">
+                    <div class="doc-status">✅ 완료</div>
+                    <a href="08_source-documentation.html" class="doc-link">문서 보기</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 최종발표 PPT 특별 섹션 -->
+        <div class="special-section">
+            <div class="special-title">
+                <span>🎭</span> 최종발표 PPT (3부작)
+            </div>
+            
+            <div class="presentation-grid">
+                <div class="presentation-card">
+                    <div class="presentation-icon">📊</div>
+                    <div class="presentation-title">Part 1: 프로젝트 개요</div>
+                    <div class="presentation-desc">완성 현황, 핵심 기능, 기술 스택, 시스템 아키텍처</div>
+                    <a href="09_final-presentation-part1.html" class="presentation-link">Part 1 보기</a>
+                </div>
+                
+                <div class="presentation-card">
+                    <div class="presentation-icon">📱</div>
+                    <div class="presentation-title">Part 2: 데모 & 시연</div>
+                    <div class="presentation-desc">실제 화면, 기능 시연, 성능 지표, 협업 경험</div>
+                    <a href="09_final-presentation-part2.html" class="presentation-link">Part 2 보기</a>
+                </div>
+                
+                <div class="presentation-card">
+                    <div class="presentation-icon">🏆</div>
+                    <div class="presentation-title">Part 3: 성과 & 전망</div>
+                    <div class="presentation-desc">프로젝트 성과, 학습 교훈, 향후 발전 방향</div>
+                    <a href="09_final-presentation-part3.html" class="presentation-link">Part 3 보기</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 앱 체험하기 -->
+        <div style="text-align: center;">
+            <a href="../index.html" class="app-link">
+                📚 BookReview 체험하기 →
+            </a>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <h3 style="margin-bottom: 15px;">🎉 프로젝트 완료</h3>
+            <p>총 9개 문서, 28일 개발 과정, 100% 완성도 달성</p>
+            <p style="margin-top: 15px; opacity: 0.7;">
+                2025년 8월 27일 최종 완성 | BookReview 프로젝트팀
+            </p>
+        </div>
+    </div>
+</body>
+</html>

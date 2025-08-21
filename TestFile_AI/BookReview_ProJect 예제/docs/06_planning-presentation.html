@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookReview 기획발표</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #1a1a2e;
+        }
+        
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .slide h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        .slide h2 {
+            color: #34495e;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .slide h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .title-slide h1 {
+            font-size: 4em;
+            color: white;
+            border: none;
+            margin-bottom: 30px;
+        }
+        
+        .title-slide .subtitle {
+            font-size: 1.5em;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+        
+        .title-slide .meta {
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            flex: 1;
+            align-items: start;
+        }
+        
+        .content-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            height: fit-content;
+        }
+        
+        .content-card h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            font-size: 1.5em;
+            min-width: 30px;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .tech-item {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 3px solid #667eea;
+        }
+        
+        .tech-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .tech-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #667eea;
+            transform: translateY(-50%);
+        }
+        
+        .timeline-item {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 3px solid #667eea;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-task {
+            font-size: 0.9em;
+            color: #2c3e50;
+        }
+        
+        .demo-mockup {
+            background: #f1f3f4;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .mockup-browser {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .mockup-header {
+            background: #e9ecef;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .mockup-dots {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27ca3f; }
+        
+        .mockup-url {
+            background: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            flex: 1;
+            text-align: left;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .mockup-content {
+            padding: 40px;
+            background: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-box {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .team-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .team-member {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border-top: 4px solid #667eea;
+        }
+        
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            background: #667eea;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+        }
+        
+        .member-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .member-role {
+            color: #667eea;
+            font-size: 0.9em;
+        }
+        
+        .risk-analysis {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .risk-item {
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        
+        .risk-high {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        
+        .risk-medium {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+        
+        .risk-low {
+            background: #e8f5e8;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+        
+        .conclusion-box {
+            background: linear-gradient(145deg, #e8f5e8, #d4edda);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #28a745;
+            margin: 20px 0;
+        }
+        
+        .conclusion-box h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+        
+        .conclusion-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .conclusion-list li {
+            padding: 8px 0;
+            color: #155724;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .conclusion-list li:before {
+            content: "✅";
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+                min-height: auto;
+            }
+            
+            .slide h1 {
+                font-size: 2em;
+            }
+            
+            .title-slide h1 {
+                font-size: 2.5em;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .timeline {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .timeline::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide">
+            <div class="slide-number">1/12</div>
+            <h1>📚 BookReview</h1>
+            <div class="subtitle">독서 리뷰 플랫폼 기획발표</div>
+            <div class="meta">
+                <div>2025년 8월 11일</div>
+                <div>프로젝트 팀 발표</div>
+            </div>
+        </div>
+        
+        <!-- Slide 2: 목차 -->
+        <div class="slide">
+            <div class="slide-number">2/12</div>
+            <h2>📋 발표 순서</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h4>🎯 1. 프로젝트 개요</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">📌</span>프로젝트 목적</li>
+                        <li><span class="feature-icon">🎨</span>핵심 가치</li>
+                        <li><span class="feature-icon">👥</span>타겟 사용자</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>⚙️ 2. 기능 설계</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">🔐</span>사용자 관리</li>
+                        <li><span class="feature-icon">📚</span>도서 관리</li>
+                        <li><span class="feature-icon">⭐</span>리뷰 시스템</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>🗄️ 3. 시스템 설계</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">🎯</span>ERD 구조</li>
+                        <li><span class="feature-icon">🔧</span>기술 스택</li>
+                        <li><span class="feature-icon">📱</span>UI/UX 설계</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>📈 4. 프로젝트 관리</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">📅</span>개발 일정</li>
+                        <li><span class="feature-icon">👨‍💻</span>팀 구성</li>
+                        <li><span class="feature-icon">⚠️</span>위험 관리</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: 프로젝트 개요 -->
+        <div class="slide">
+            <div class="slide-number">3/12</div>
+            <h2>🎯 프로젝트 개요</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h4>📚 프로젝트 목적</h4>
+                    <p style="line-height: 1.8; color: #555; margin-bottom: 15px;">
+                        독서를 사랑하는 사용자들이 읽은 책에 대한 리뷰를 작성하고 공유할 수 있는 
+                        웹 기반 플랫폼을 개발하여 독서 문화 확산에 기여
+                    </p>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">🌟</span>신뢰할 수 있는 도서 평점 시스템</li>
+                        <li><span class="feature-icon">🤝</span>독서가들 간의 소통 공간</li>
+                        <li><span class="feature-icon">🔍</span>개인화된 독서 취향 분석</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>👥 타겟 사용자</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">📖</span><strong>일반 독서가:</strong> 책 추천이 필요한 사람들</li>
+                        <li><span class="feature-icon">✍️</span><strong>리뷰어:</strong> 독서 후기를 공유하고 싶은 사람들</li>
+                        <li><span class="feature-icon">📊</span><strong>독서 애호가:</strong> 체계적인 독서 관리가 필요한 사람들</li>
+                        <li><span class="feature-icon">🎓</span><strong>학생/연구자:</strong> 학술서적 정보가 필요한 사람들</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: 핵심 기능 -->
+        <div class="slide">
+            <div class="slide-number">4/12</div>
+            <h2>⚙️ 핵심 기능</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h4>🔐 사용자 관리</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">📝</span>회원가입 (이메일 인증)</li>
+                        <li><span class="feature-icon">🔑</span>로그인/로그아웃</li>
+                        <li><span class="feature-icon">👤</span>프로필 관리</li>
+                        <li><span class="feature-icon">📊</span>개인 통계 대시보드</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>📚 도서 관리</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">🔍</span>도서 검색 (제목, 저자)</li>
+                        <li><span class="feature-icon">🏷️</span>장르별 필터링</li>
+                        <li><span class="feature-icon">📋</span>도서 등록/수정</li>
+                        <li><span class="feature-icon">📱</span>반응형 목록 뷰</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>⭐ 리뷰 시스템</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">🌟</span>1-5점 별점 평가</li>
+                        <li><span class="feature-icon">✍️</span>상세 리뷰 작성</li>
+                        <li><span class="feature-icon">👍</span>추천/비추천 기능</li>
+                        <li><span class="feature-icon">📈</span>리뷰 통계 분석</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>🎨 사용자 경험</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">📱</span>반응형 웹 디자인</li>
+                        <li><span class="feature-icon">🎯</span>직관적인 인터페이스</li>
+                        <li><span class="feature-icon">⚡</span>빠른 검색 및 필터링</li>
+                        <li><span class="feature-icon">🔔</span>실시간 알림</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 5: 기술 스택 -->
+        <div class="slide">
+            <div class="slide-number">5/12</div>
+            <h2>🔧 기술 스택</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="tech-icon">🌐</div>
+                    <div class="tech-name">HTML5</div>
+                    <div style="color: #666; font-size: 0.9em; margin-top: 5px;">구조 및 마크업</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🎨</div>
+                    <div class="tech-name">CSS3</div>
+                    <div style="color: #666; font-size: 0.9em; margin-top: 5px;">스타일링 및 애니메이션</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">⚡</div>
+                    <div class="tech-name">JavaScript ES6+</div>
+                    <div style="color: #666; font-size: 0.9em; margin-top: 5px;">동적 기능 구현</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">💾</div>
+                    <div class="tech-name">localStorage</div>
+                    <div style="color: #666; font-size: 0.9em; margin-top: 5px;">데이터 저장</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📱</div>
+                    <div class="tech-name">Responsive</div>
+                    <div style="color: #666; font-size: 0.9em; margin-top: 5px;">모바일 지원</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔄</div>
+                    <div class="tech-name">Git</div>
+                    <div style="color: #666; font-size: 0.9em; margin-top: 5px;">버전 관리</div>
+                </div>
+            </div>
+            
+            <div style="background: #f0f9ff; padding: 25px; border-radius: 10px; border-left: 4px solid #0ea5e9; margin-top: 30px;">
+                <h3 style="color: #0c4a6e; margin-bottom: 15px;">🎯 기술 선택 이유</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0; color: #0f172a;"><strong>바닐라 JavaScript:</strong> 순수 기술 학습 및 성능 최적화</li>
+                    <li style="padding: 8px 0; color: #0f172a;"><strong>localStorage:</strong> 별도 서버 없이 빠른 프로토타이핑</li>
+                    <li style="padding: 8px 0; color: #0f172a;"><strong>반응형 CSS:</strong> 다양한 디바이스 지원</li>
+                    <li style="padding: 8px 0; color: #0f172a;"><strong>모듈화 구조:</strong> 유지보수성 향상</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Slide 6: ERD 설계 -->
+        <div class="slide">
+            <div class="slide-number">6/12</div>
+            <h2>🗄️ 데이터베이스 설계</h2>
+            <div class="demo-mockup">
+                <div style="background: #f8f9fa; padding: 30px; border-radius: 15px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 25px;">📊 ERD 구조</h3>
+                    <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;">
+                        
+                        <!-- Users 테이블 -->
+                        <div style="background: white; border: 2px solid #667eea; border-radius: 10px; padding: 15px; min-width: 200px;">
+                            <div style="background: #667eea; color: white; padding: 10px; margin: -15px -15px 15px -15px; font-weight: bold;">
+                                👤 Users
+                            </div>
+                            <div style="font-family: monospace; font-size: 0.9em;">
+                                <div style="color: #e65100;"><strong>id</strong> (PK)</div>
+                                <div>username</div>
+                                <div>email</div>
+                                <div>password</div>
+                                <div>joinDate</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Books 테이블 -->
+                        <div style="background: white; border: 2px solid #667eea; border-radius: 10px; padding: 15px; min-width: 200px;">
+                            <div style="background: #667eea; color: white; padding: 10px; margin: -15px -15px 15px -15px; font-weight: bold;">
+                                📚 Books
+                            </div>
+                            <div style="font-family: monospace; font-size: 0.9em;">
+                                <div style="color: #e65100;"><strong>id</strong> (PK)</div>
+                                <div>title</div>
+                                <div>author</div>
+                                <div>publisher</div>
+                                <div>genre</div>
+                                <div>publishDate</div>
+                                <div>description</div>
+                                <div style="color: #7b1fa2;"><strong>addedBy</strong> (FK)</div>
+                                <div>addedDate</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Reviews 테이블 -->
+                        <div style="background: white; border: 2px solid #667eea; border-radius: 10px; padding: 15px; min-width: 200px;">
+                            <div style="background: #667eea; color: white; padding: 10px; margin: -15px -15px 15px -15px; font-weight: bold;">
+                                ⭐ Reviews
+                            </div>
+                            <div style="font-family: monospace; font-size: 0.9em;">
+                                <div style="color: #e65100;"><strong>id</strong> (PK)</div>
+                                <div style="color: #7b1fa2;"><strong>userId</strong> (FK)</div>
+                                <div style="color: #7b1fa2;"><strong>bookId</strong> (FK)</div>
+                                <div>rating</div>
+                                <div>content</div>
+                                <div>isRecommended</div>
+                                <div>reviewDate</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: left;">
+                        <h4 style="color: #2c3e50; margin-bottom: 15px;">🔗 관계 정보</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 5px 0; color: #555;">📌 Users 1 : N Books (사용자는 여러 도서를 등록할 수 있음)</li>
+                            <li style="padding: 5px 0; color: #555;">📌 Users 1 : N Reviews (사용자는 여러 리뷰를 작성할 수 있음)</li>
+                            <li style="padding: 5px 0; color: #555;">📌 Books 1 : N Reviews (도서는 여러 리뷰를 가질 수 있음)</li>
+                            <li style="padding: 5px 0; color: #555;">📌 UNIQUE (userId, bookId) - 한 사용자당 도서 1개 리뷰</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: UI/UX 설계 -->
+        <div class="slide">
+            <div class="slide-number">7/12</div>
+            <h2>🎨 UI/UX 설계</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h4>🌟 디자인 컨셉</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">🎯</span><strong>미니멀:</strong> 깔끔하고 직관적인 인터페이스</li>
+                        <li><span class="feature-icon">📚</span><strong>도서 친화적:</strong> 독서를 연상시키는 색상과 폰트</li>
+                        <li><span class="feature-icon">⚡</span><strong>빠른 접근:</strong> 주요 기능의 원클릭 접근</li>
+                        <li><span class="feature-icon">📱</span><strong>반응형:</strong> 모든 디바이스에서 최적화</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>🎨 컬러 팔레트</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px;">
+                        <div style="background: #667eea; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-weight: bold;">Primary</div>
+                            <div style="font-size: 0.9em;">#667eea</div>
+                        </div>
+                        <div style="background: #2c3e50; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-weight: bold;">Dark</div>
+                            <div style="font-size: 0.9em;">#2c3e50</div>
+                        </div>
+                        <div style="background: #f8f9fa; color: #333; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #dee2e6;">
+                            <div style="font-weight: bold;">Light</div>
+                            <div style="font-size: 0.9em;">#f8f9fa</div>
+                        </div>
+                        <div style="background: #28a745; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-weight: bold;">Success</div>
+                            <div style="font-size: 0.9em;">#28a745</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-mockup">
+                <h3 style="color: #2c3e50; margin-bottom: 20px;">📱 주요 화면 구성</h3>
+                <div class="mockup-browser">
+                    <div class="mockup-header">
+                        <div class="mockup-dots">
+                            <div class="mockup-dot dot-red"></div>
+                            <div class="mockup-dot dot-yellow"></div>
+                            <div class="mockup-dot dot-green"></div>
+                        </div>
+                        <div class="mockup-url">https://bookreview.com</div>
+                    </div>
+                    <div class="mockup-content">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <h2 style="margin-bottom: 10px;">📚 BookReview</h2>
+                            <p>당신의 독서 경험을 공유하세요</p>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <h4>🔍 도서 검색</h4>
+                                <p style="font-size: 0.9em; color: #666;">제목, 저자로 검색</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                                <h4>⭐ 인기 도서</h4>
+                                <p style="font-size: 0.9em; color: #666;">높은 평점순 정렬</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                                <h4>📝 내 리뷰</h4>
+                                <p style="font-size: 0.9em; color: #666;">작성한 리뷰 관리</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 8: 개발 일정 -->
+        <div class="slide">
+            <div class="slide-number">8/12</div>
+            <h2>📅 개발 일정</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">8/1-7</div>
+                    <div class="timeline-task">기획<br>설계</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">8/8-10</div>
+                    <div class="timeline-task">UI/UX<br>설계</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">8/11</div>
+                    <div class="timeline-task">기획<br>발표</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">8/12-20</div>
+                    <div class="timeline-task">개발<br>구현</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">8/21-23</div>
+                    <div class="timeline-task">테스트<br>디버깅</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">8/24-26</div>
+                    <div class="timeline-task">문서화<br>정리</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">8/27-28</div>
+                    <div class="timeline-task">최종<br>발표</div>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">28</div>
+                    <div class="stat-label">총 개발일수</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">주요 단계</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">13</div>
+                    <div class="stat-label">개발 파일수</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">완성도 목표</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 9: 팀 구성 -->
+        <div class="slide">
+            <div class="slide-number">9/12</div>
+            <h2>👥 팀 구성</h2>
+            <div class="team-section">
+                <div class="team-member">
+                    <div class="member-avatar">👨‍💼</div>
+                    <div class="member-name">김기획</div>
+                    <div class="member-role">프로젝트 매니저</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        • 프로젝트 전체 관리<br>
+                        • 일정 및 품질 관리<br>
+                        • 이해관계자 커뮤니케이션
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">🎨</div>
+                    <div class="member-name">박설계</div>
+                    <div class="member-role">시스템 설계자</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        • 시스템 아키텍처 설계<br>
+                        • 데이터베이스 설계<br>
+                        • UI/UX 설계
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">💻</div>
+                    <div class="member-name">최개발</div>
+                    <div class="member-role">프론트엔드 개발자</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        • HTML/CSS/JS 개발<br>
+                        • 반응형 웹 구현<br>
+                        • 사용자 인터페이스 개발
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">🔍</div>
+                    <div class="member-name">이테스트</div>
+                    <div class="member-role">QA 엔지니어</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        • 테스트 계획 수립<br>
+                        • 기능 및 호환성 테스트<br>
+                        • 버그 추적 및 관리
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">📝</div>
+                    <div class="member-name">정문서</div>
+                    <div class="member-role">기술 작가</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        • 기술 문서 작성<br>
+                        • 사용자 매뉴얼 작성<br>
+                        • 발표 자료 준비
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 10: 위험 관리 -->
+        <div class="slide">
+            <div class="slide-number">10/12</div>
+            <h2>⚠️ 위험 관리</h2>
+            <div class="risk-analysis">
+                <div class="risk-item risk-high">
+                    <h4>🔥 높은 위험도</h4>
+                    <p><strong>일정 지연 가능성:</strong> 기능 복잡도가 예상보다 높을 수 있음</p>
+                    <p><strong>대응 방안:</strong> 주요 기능 우선 개발, 부가 기능은 2단계로 연기</p>
+                </div>
+                <div class="risk-item risk-medium">
+                    <h4>⚡ 중간 위험도</h4>
+                    <p><strong>브라우저 호환성 문제:</strong> 다양한 브라우저에서 테스트 필요</p>
+                    <p><strong>대응 방안:</strong> 주요 브라우저별 테스트 계획 수립, Polyfill 사용</p>
+                </div>
+                <div class="risk-item risk-medium">
+                    <h4>📱 중간 위험도</h4>
+                    <p><strong>모바일 최적화:</strong> 다양한 디바이스 크기 대응</p>
+                    <p><strong>대응 방안:</strong> Mobile-First 접근, 미디어 쿼리 적극 활용</p>
+                </div>
+                <div class="risk-item risk-low">
+                    <h4>✅ 낮은 위험도</h4>
+                    <p><strong>기술적 난이도:</strong> 바닐라 JavaScript로 구현 가능한 수준</p>
+                    <p><strong>대응 방안:</strong> 단계적 개발, 충분한 테스트 시간 확보</p>
+                </div>
+            </div>
+            
+            <div style="background: #e8f5e8; padding: 25px; border-radius: 10px; border-left: 4px solid #28a745; margin-top: 30px;">
+                <h3 style="color: #155724; margin-bottom: 15px;">🛡️ 위험 완화 전략</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0; color: #155724;">✅ <strong>애자일 개발:</strong> 짧은 스프린트로 빠른 피드백 수집</li>
+                    <li style="padding: 8px 0; color: #155724;">✅ <strong>정기 검토:</strong> 주 2회 진행 상황 점검</li>
+                    <li style="padding: 8px 0; color: #155724;">✅ <strong>백업 계획:</strong> 핵심 기능 우선 개발</li>
+                    <li style="padding: 8px 0; color: #155724;">✅ <strong>품질 관리:</strong> 코드 리뷰 및 테스트 자동화</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Slide 11: 기대 효과 -->
+        <div class="slide">
+            <div class="slide-number">11/12</div>
+            <h2>🌟 기대 효과</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h4>📚 독서 문화 확산</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">🎯</span>신뢰할 수 있는 도서 추천 시스템</li>
+                        <li><span class="feature-icon">👥</span>독서가들 간의 활발한 소통</li>
+                        <li><span class="feature-icon">📈</span>독서량 증가 및 습관 형성</li>
+                        <li><span class="feature-icon">🏆</span>양질의 도서 발굴 및 홍보</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>💡 기술적 성과</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">⚡</span>바닐라 JS 숙련도 향상</li>
+                        <li><span class="feature-icon">🎨</span>반응형 웹 디자인 경험</li>
+                        <li><span class="feature-icon">🔧</span>프로젝트 관리 역량 강화</li>
+                        <li><span class="feature-icon">👥</span>팀워크 및 협업 능력 향상</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>📊 비즈니스 가치</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">📈</span>사용자 데이터 기반 인사이트</li>
+                        <li><span class="feature-icon">🎯</span>개인화 추천 알고리즘 기반</li>
+                        <li><span class="feature-icon">📱</span>확장 가능한 플랫폼 구조</li>
+                        <li><span class="feature-icon">💼</span>포트폴리오 프로젝트 완성</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>🔮 향후 발전 방향</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon">🤖</span>AI 기반 도서 추천 시스템</li>
+                        <li><span class="feature-icon">📱</span>모바일 앱 개발</li>
+                        <li><span class="feature-icon">🌐</span>소셜 네트워크 기능 확장</li>
+                        <li><span class="feature-icon">📚</span>출판사 파트너십 구축</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 12: 결론 -->
+        <div class="slide">
+            <div class="slide-number">12/12</div>
+            <h2>🎯 결론</h2>
+            
+            <div class="conclusion-box">
+                <h3>📚 BookReview 프로젝트 핵심 가치</h3>
+                <ul class="conclusion-list">
+                    <li>독서 문화 확산과 지식 공유 플랫폼 구축</li>
+                    <li>신뢰할 수 있는 도서 평점 및 추천 시스템 제공</li>
+                    <li>현대적이고 사용자 친화적인 웹 인터페이스 구현</li>
+                    <li>확장 가능하고 유지보수가 용이한 시스템 설계</li>
+                </ul>
+            </div>
+            
+            <div style="background: #f0f9ff; padding: 30px; border-radius: 15px; border-left: 5px solid #0ea5e9; margin: 20px 0;">
+                <h3 style="color: #0c4a6e; margin-bottom: 15px;">🚀 성공 지표</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5em; color: #0ea5e9; font-weight: bold;">100%</div>
+                        <div style="color: #0f172a;">요구사항 구현</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5em; color: #0ea5e9; font-weight: bold;">3초</div>
+                        <div style="color: #0f172a;">페이지 로딩 시간</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5em; color: #0ea5e9; font-weight: bold;">99.9%</div>
+                        <div style="color: #0f172a;">가동 시간 목표</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5em; color: #0ea5e9; font-weight: bold;">5점</div>
+                        <div style="color: #0f172a;">사용자 만족도</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 15px;">
+                <h2 style="margin-bottom: 20px;">🎉 함께 만들어갈 독서 문화!</h2>
+                <p style="font-size: 1.3em; opacity: 0.9;">
+                    BookReview를 통해 더 많은 사람들이 책을 읽고, 
+                    서로의 생각을 나누며, 함께 성장할 수 있는 플랫폼을 만들어 나가겠습니다.
+                </p>
+                <div style="margin-top: 30px; font-size: 1.1em;">
+                    <strong>감사합니다! 🙏</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
