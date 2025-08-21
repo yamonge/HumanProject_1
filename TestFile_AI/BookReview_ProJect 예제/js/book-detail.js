@@ -232,8 +232,8 @@ function loadBookData(bookId) {
         return;
     }
     
-    // 가이드 data.js의 getBookReviews() 함수 활용
-    bookReviews = getBookReviews(bookId);
+    // 가이드 data.js의 getReviewsByBook() 함수 활용
+    bookReviews = getReviewsByBook(bookId);
     
     setTimeout(() => {
         hideBookLoading();
@@ -701,7 +701,7 @@ function handleWriteReview(e) {
         closeWriteReviewModal();
         
         // 데이터 새로고침
-        bookReviews = getBookReviews(currentBook.id);
+        bookReviews = getReviewsByBook(currentBook.id);
         loadReviews();
         updateRatingDisplay();
         checkUserPermissions();
@@ -724,7 +724,7 @@ function deleteReviewConfirm(reviewId) {
             showNotification('리뷰가 삭제되었습니다.', 'success');
             
             // 데이터 새로고침
-            bookReviews = getBookReviews(currentBook.id);
+            bookReviews = getReviewsByBook(currentBook.id);
             loadReviews();
             updateRatingDisplay();
             checkUserPermissions();
