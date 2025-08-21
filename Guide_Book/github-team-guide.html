@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4명 팀 GitHub 협업 완전 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .nav-menu {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border-left: 5px solid #667eea;
+        }
+
+        .nav-menu h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 10px 15px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 2px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .team-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+
+        .team-member {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .team-member h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member .role {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member .files {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .step {
+            margin: 2rem 0;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .step-header {
+            background: #667eea;
+            color: white;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .step-header:hover {
+            background: #5a6fd8;
+        }
+
+        .step-number {
+            background: rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .step-content {
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .step.active .step-content {
+            display: block;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step:first-child .step-content {
+            display: block;
+        }
+
+        .branch-diagram {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+
+        .workflow-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .workflow-step .number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-block .comment {
+            color: #5c6370;
+        }
+
+        .code-block .keyword {
+            color: #c678dd;
+        }
+
+        .code-block .string {
+            color: #98c379;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .checklist {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 5px solid #28a745;
+        }
+
+        .checklist h4 {
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .checklist label {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checklist label:hover {
+            background: rgba(40, 167, 69, 0.1);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .file-structure {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: monospace;
+            margin: 1rem 0;
+        }
+
+        .file-structure .folder {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .file-structure .file {
+            color: #28a745;
+        }
+
+        .file-structure .comment {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .vs-code-guide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .vs-code-step {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 10px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .team-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 4명 팀 GitHub 협업 가이드</h1>
+            <p>VS Code UI로 쉽게 배우는 팀 프로젝트 소스 공유</p>
+        </div>
+
+        <div class="nav-menu">
+            <h3>📋 빠른 이동 메뉴</h3>
+            <div class="nav-links">
+                <a href="#team-setup">팀 구성 & 역할</a>
+                <a href="#branch-strategy">브랜치 전략</a>
+                <a href="#vscode-guide">VS Code 사용법</a>
+                <a href="#workflow">협업 워크플로우</a>
+                <a href="#practice">실습 예제</a>
+                <a href="#troubleshooting">문제 해결</a>
+            </div>
+        </div>
+
+        <div class="alert alert-info">
+            <strong>🎯 이 가이드의 목적:</strong> 4명이 한 팀이 되어 VS Code와 GitHub만으로 완벽한 소스 공유와 협업을 하는 방법을 배웁니다. 
+            명령어는 전혀 사용하지 않고, VS Code의 그래픽 인터페이스만 사용합니다.
+        </div>
+
+        <section id="team-setup">
+            <h2>👥 팀 구성과 역할 분담</h2>
+            <div class="team-overview">
+                <div class="team-member">
+                    <h4>🔧 팀장 (당신)</h4>
+                    <div class="role">전체 관리 & 통합</div>
+                    <div class="files">모든 파일 관리, Pull Request 승인, 충돌 해결</div>
+                </div>
+                <div class="team-member">
+                    <h4>🎨 팀원 A</h4>
+                    <div class="role">프론트엔드 담당</div>
+                    <div class="files">*.html, layout.css, 페이지 구조</div>
+                </div>
+                <div class="team-member">
+                    <h4>⚙️ 팀원 B</h4>
+                    <div class="role">JavaScript 담당</div>
+                    <div class="files">*.js, data.js, 로직 처리</div>
+                </div>
+                <div class="team-member">
+                    <h4>🎭 팀원 C</h4>
+                    <div class="role">디자인 담당</div>
+                    <div class="files">style.css, theme.css, UI/UX</div>
+                </div>
+            </div>
+        </section>        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">1</div>
+                <div>
+                    <h3>🏗️ 팀 저장소 준비</h3>
+                    <p>GitHub 저장소 설정과 팀원 초대</p>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="alert alert-info">
+                    <strong>팀장이 해야 할 일:</strong> 기존 저장소를 활용하거나 새로운 팀 프로젝트 저장소를 만듭니다.
+                </div>
+                
+                <h4>방법 1: 현재 html_training 저장소 활용 (추천)</h4>
+                <div class="workflow-box">
+                    <div class="workflow-step">
+                        <div class="number">1</div>
+                        <div>GitHub 웹사이트에서 저장소 페이지로 이동</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">2</div>
+                        <div><strong>Settings</strong> 탭 클릭</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">3</div>
+                        <div><strong>Manage access</strong> → <strong>Add people</strong> 클릭</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">4</div>
+                        <div>팀원들의 GitHub 계정명 입력하여 초대</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">5</div>
+                        <div>권한을 <strong>Write</strong>로 설정 (코드 수정 가능)</div>
+                    </div>
+                </div>
+
+                <h4>방법 2: 새로운 팀 프로젝트 저장소 생성</h4>
+                <div class="code-block">
+저장소명 예시: team-project-semester1
+설명: 학원 1차 조별 프로젝트
+공개 여부: Private (팀원들만 접근)
+README.md 자동 생성: ✅ 체크
+                </div>
+
+                <div class="checklist">
+                    <h4>✅ 팀장 체크리스트</h4>
+                    <label><input type="checkbox"> 팀원 3명의 GitHub 계정명 수집</label>
+                    <label><input type="checkbox"> GitHub 저장소에서 팀원 초대 완료</label>
+                    <label><input type="checkbox"> 모든 팀원이 초대 수락 확인</label>
+                    <label><input type="checkbox"> 팀원들이 저장소 접근 가능 확인</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">2</div>
+                <div>
+                    <h3>🌿 브랜치 전략 수립</h3>
+                    <p>팀원별 작업 영역 분리</p>
+                </div>
+            </div>
+            <div class="step-content" id="branch-strategy">
+                <div class="alert alert-warning">
+                    <strong>중요:</strong> 브랜치는 각자의 작업 공간입니다. 다른 사람의 브랜치에서는 작업하지 마세요!
+                </div>
+
+                <h4>🏗️ 4명 팀 브랜치 구조</h4>
+                <div class="branch-diagram">
+main (최종 완성본)
+├── develop (개발 통합 브랜치)
+├── feature/frontend-팀원A (HTML 구조 작업)
+├── feature/backend-팀원B (JavaScript 로직 작업)
+└── feature/design-팀원C (CSS 디자인 작업)
+                </div>
+
+                <h4>📋 브랜치별 작업 영역</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                    <thead>
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 10px; border: 1px solid #ddd;">브랜치명</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">담당자</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">주요 작업</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">관련 파일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>main</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">팀장</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">최종 병합, 배포</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">완성된 모든 파일</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>develop</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">팀장</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">개발 통합 관리</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">테스트 통합</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>feature/frontend-A</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">팀원A</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">HTML 구조, 레이아웃</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">*.html, layout.css</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>feature/backend-B</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">팀원B</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">JavaScript 로직</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">*.js, data.js</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>feature/design-C</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">팀원C</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">CSS 디자인</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">style.css, theme.css</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="checklist">
+                    <h4>✅ 브랜치 설정 체크리스트</h4>
+                    <label><input type="checkbox"> 팀장이 develop 브랜치 생성</label>
+                    <label><input type="checkbox"> 각 팀원이 개인 브랜치 생성</label>
+                    <label><input type="checkbox"> 브랜치명 규칙 팀원들과 공유</label>
+                    <label><input type="checkbox"> 작업 영역 분담표 작성</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">3</div>
+                <div>
+                    <h3>💻 VS Code에서 브랜치 생성</h3>
+                    <p>각자의 작업 공간 만들기</p>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="alert alert-success">
+                    <strong>팀장 먼저:</strong> develop 브랜치를 만들어 팀원들에게 기본 구조를 제공하세요.
+                </div>
+
+                <h4>🔧 팀장이 develop 브랜치 생성</h4>
+                <div class="vs-code-guide">
+                    <h5>VS Code에서 하는 작업:</h5>
+                    <div class="vs-code-step">
+                        <strong>1단계:</strong> VS Code 하단 상태바에서 <strong>"main"</strong> 클릭
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>2단계:</strong> 드롭다운에서 <strong>"Create new branch"</strong> 선택
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>3단계:</strong> 브랜치명 <strong>"develop"</strong> 입력
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>4단계:</strong> Source Control 패널 (왼쪽 사이드바 3번째 아이콘) 열기
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>5단계:</strong> <strong>"Publish branch"</strong> 버튼 클릭하여 GitHub에 업로드
+                    </div>
+                </div>
+
+                <h4>👥 팀원들이 개인 브랜치 생성</h4>
+                <div class="workflow-box">
+                    <div class="workflow-step">
+                        <div class="number">1</div>
+                        <div><strong>저장소 Clone:</strong> VS Code에서 Ctrl+Shift+P → "Git: Clone" → GitHub URL 입력</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">2</div>
+                        <div><strong>프로젝트 열기:</strong> Clone한 폴더를 VS Code에서 열기</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">3</div>
+                        <div><strong>브랜치 생성:</strong> 하단 "main" 클릭 → "Create new branch"</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">4</div>
+                        <div><strong>브랜치명 입력:</strong> "feature/frontend-본인이름" 형식으로 입력</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">5</div>
+                        <div><strong>GitHub에 업로드:</strong> "Publish branch" 클릭</div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+<span class="comment">// 브랜치명 예시</span>
+feature/frontend-김철수
+feature/backend-이영희  
+feature/design-박민수
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">4</div>
+                <div>
+                    <h3>🔄 일일 협업 워크플로우</h3>
+                    <p>매일 이렇게 작업하세요</p>
+                </div>
+            </div>
+            <div class="step-content" id="workflow">
+                <div class="alert alert-warning">
+                    <strong>⚠️ 중요한 규칙:</strong> 작업 시작 전에는 반드시 Pull을 해서 최신 상태로 만드세요!
+                </div>
+
+                <h4>🌅 매일 작업 시작 전 (모든 팀원)</h4>
+                <div class="vs-code-guide">
+                    <h5>VS Code에서 하는 작업 순서:</h5>
+                    <div class="vs-code-step">
+                        <strong>1단계:</strong> Source Control 패널 열기 (사이드바 3번째 아이콘 🌿)
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>2단계:</strong> 상단의 <strong>"..."</strong> 메뉴 클릭 → <strong>"Pull"</strong> 선택
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>3단계:</strong> 하단에서 <strong>"develop"</strong> 브랜치로 이동
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>4단계:</strong> 다시 Pull 하여 develop 브랜치 최신 상태로 업데이트
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>5단계:</strong> 본인 브랜치로 이동 (예: feature/frontend-김철수)
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>6단계:</strong> <strong>"..."</strong> → <strong>"Merge Branch"</strong> → <strong>"develop"</strong> 선택
+                    </div>
+                </div>
+
+                <h4>⚡ 작업 중 (각 팀원)</h4>
+                <div class="workflow-box">
+                    <div class="workflow-step">
+                        <div class="number">1</div>
+                        <div><strong>파일 수정:</strong> 본인 담당 파일들을 수정하고 저장</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">2</div>
+                        <div><strong>변경사항 확인:</strong> Source Control에서 수정된 파일들 확인</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">3</div>
+                        <div><strong>Stage 추가:</strong> 수정된 파일 옆의 <strong>"+"</strong> 버튼 클릭</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">4</div>
+                        <div><strong>커밋 메시지:</strong> 상단 입력창에 작업 내용 입력</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">5</div>
+                        <div><strong>커밋:</strong> <strong>"✓ Commit"</strong> 버튼 클릭</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">6</div>
+                        <div><strong>Push:</strong> <strong>"⬆️ Push"</strong> 버튼으로 GitHub에 업로드</div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+<span class="comment">// 좋은 커밋 메시지 예시</span>
+<span class="string">"로그인 페이지 HTML 구조 완성"</span>
+<span class="string">"메인 페이지 CSS 스타일링 추가"</span>  
+<span class="string">"사용자 인증 JavaScript 로직 구현"</span>
+<span class="string">"회원가입 폼 유효성 검사 추가"</span>
+                </div>
+
+                <h4>🔄 작업 완료 후 (팀원 → 팀장)</h4>
+                <div class="alert alert-info">
+                    <strong>Pull Request:</strong> 자신의 작업을 팀에 합치기 위한 요청입니다.
+                </div>
+                <div class="workflow-box">
+                    <div class="workflow-step">
+                        <div class="number">1</div>
+                        <div><strong>GitHub 웹사이트</strong> 접속</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">2</div>
+                        <div><strong>"Pull requests"</strong> 탭 클릭</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">3</div>
+                        <div><strong>"New pull request"</strong> 클릭</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">4</div>
+                        <div><strong>브랜치 선택:</strong> 본인브랜치 → develop 으로 설정</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">5</div>
+                        <div><strong>제목과 설명:</strong> 무엇을 작업했는지 자세히 작성</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">6</div>
+                        <div><strong>"Create pull request"</strong> 클릭</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">7</div>
+                        <div><strong>팀장에게 알림:</strong> 카톡으로 Pull Request 생성 알림</div>
+                    </div>
+                </div>
+            </div>
+        </div>        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">5</div>
+                <div>
+                    <h3>🎯 파일 충돌 방지 전략</h3>
+                    <p>같은 파일을 동시 수정할 때 문제 방지</p>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="alert alert-warning">
+                    <strong>충돌이란?</strong> 두 명 이상이 같은 파일의 같은 부분을 동시에 수정했을 때 발생하는 문제입니다.
+                </div>
+
+                <h4>📂 파일별 담당 분리</h4>
+                <div class="file-structure">
+📁 <span class="folder">프로젝트 루트</span>
+├── 📄 <span class="file">index.html</span>          <span class="comment">→ 팀원A (프론트엔드)</span>
+├── 📄 <span class="file">login.html</span>          <span class="comment">→ 팀원A</span>
+├── 📄 <span class="file">board.html</span>          <span class="comment">→ 팀원A</span>
+├── 📁 <span class="folder">css/</span>
+│   ├── <span class="file">main.css</span>           <span class="comment">→ 팀원C (디자인)</span>
+│   ├── <span class="file">login.css</span>          <span class="comment">→ 팀원C</span>
+│   └── <span class="file">responsive.css</span>     <span class="comment">→ 팀원C</span>
+├── 📁 <span class="folder">js/</span>
+│   ├── <span class="file">app.js</span>             <span class="comment">→ 팀원B (백엔드)</span>
+│   ├── <span class="file">auth.js</span>            <span class="comment">→ 팀원B</span>
+│   └── <span class="file">data.js</span>            <span class="comment">→ 팀원B</span>
+└── 📁 <span class="folder">docs/</span>               <span class="comment">→ 팀장 (문서)</span>
+                </div>
+
+                <h4>🚨 공통 파일 수정 규칙</h4>
+                <div class="workflow-box">
+                    <h5>같은 파일을 여러 명이 수정해야 할 때:</h5>
+                    <div class="workflow-step">
+                        <div class="number">1</div>
+                        <div><strong>사전 협의:</strong> 카톡/디스코드에서 미리 "OO.html 수정할게요" 공지</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">2</div>
+                        <div><strong>시간대 분리:</strong> 오전/오후 또는 요일별로 작업 시간 나누기</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">3</div>
+                        <div><strong>즉시 Push:</strong> 수정 완료하면 바로 커밋/푸시하여 다른 사람이 받을 수 있도록</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">4</div>
+                        <div><strong>작업 완료 알림:</strong> "OO.html 수정 완료했어요!" 단체톡에 알림</div>
+                    </div>
+                </div>
+
+                <div class="checklist">
+                    <h4>✅ 충돌 방지 체크리스트</h4>
+                    <label><input type="checkbox"> 팀원별 담당 파일 명확히 정하기</label>
+                    <label><input type="checkbox"> 공통 파일 수정할 때 미리 공지</label>
+                    <label><input type="checkbox"> 작업 전 항상 Pull 받기</label>
+                    <label><input type="checkbox"> 작업 후 빠른 시간 내에 Push</label>
+                    <label><input type="checkbox"> 소통 창구(카톡/디스코드) 활성화</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">6</div>
+                <div>
+                    <h3>🚨 충돌 발생 시 해결법</h3>
+                    <p>문제 상황별 해결 방안</p>
+                </div>
+            </div>
+            <div class="step-content" id="troubleshooting">
+                <div class="alert alert-info">
+                    <strong>걱정하지 마세요!</strong> 충돌은 협업에서 자연스러운 현상입니다. VS Code가 해결을 도와줍니다.
+                </div>
+
+                <h4>⚡ VS Code에서 충돌 해결하기</h4>
+                <div class="vs-code-guide">
+                    <h5>충돌 발생했을 때 VS Code 화면:</h5>
+                    <div class="vs-code-step">
+                        <strong>1단계:</strong> 충돌이 발생한 파일에 <strong>"!"</strong> 표시가 나타남
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>2단계:</strong> 해당 파일을 열면 충돌 부분이 색깔로 구분되어 표시됨
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>3단계:</strong> 충돌 부분 위에 선택 버튼들이 나타남:
+                        <br>• <strong>"Accept Current Change"</strong> (내 코드 선택)
+                        <br>• <strong>"Accept Incoming Change"</strong> (상대방 코드 선택)
+                        <br>• <strong>"Accept Both Changes"</strong> (둘 다 포함)
+                        <br>• <strong>"Compare Changes"</strong> (비교해서 수동 선택)
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>4단계:</strong> 적절한 옵션 선택 후 파일 저장
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>5단계:</strong> Source Control에서 <strong>"Mark as Resolved"</strong> 클릭
+                    </div>
+                    <div class="vs-code-step">
+                        <strong>6단계:</strong> 커밋 메시지에 "충돌 해결" 적고 커밋/푸시
+                    </div>
+                </div>
+
+                <h4>🤝 팀 차원에서 충돌 해결하기</h4>
+                <div class="workflow-box">
+                    <div class="workflow-step">
+                        <div class="number">1</div>
+                        <div><strong>즉시 소통:</strong> "OO 파일에서 충돌 발생했어요" 단체톡에 알림</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">2</div>
+                        <div><strong>관련자 확인:</strong> 같은 파일 수정한 팀원과 직접 소통</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">3</div>
+                        <div><strong>코드 협의:</strong> 어떤 코드를 사용할지 함께 결정</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">4</div>
+                        <div><strong>해결 후 확인:</strong> 모든 기능이 정상 작동하는지 테스트</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>💡 팁:</strong> 충돌이 자주 발생한다면 파일을 더 세세하게 나누거나, 작업 시간을 더 명확히 분리하세요.
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">7</div>
+                <div>
+                    <h3>🎮 첫 팀 협업 실습</h3>
+                    <p>간단한 웹페이지를 함께 만들어보기</p>
+                </div>
+            </div>
+            <div class="step-content" id="practice">
+                <div class="alert alert-success">
+                    <strong>실습 목표:</strong> 4명이 각자 다른 부분을 담당하여 하나의 완성된 웹페이지를 만들어봅시다.
+                </div>
+
+                <h4>🎯 실습 프로젝트: "팀 소개 페이지"</h4>
+                <div class="team-overview">
+                    <div class="team-member">
+                        <h4>📝 팀원A (프론트엔드)</h4>
+                        <div class="role">HTML 구조 담당</div>
+                        <div class="files">index.html 기본 구조 작성</div>
+                    </div>
+                    <div class="team-member">
+                        <h4>🎨 팀원C (디자인)</h4>
+                        <div class="role">CSS 스타일링</div>
+                        <div class="files">style.css 디자인 작성</div>
+                    </div>
+                    <div class="team-member">
+                        <h4>⚙️ 팀원B (백엔드)</h4>
+                        <div class="role">JavaScript 기능</div>
+                        <div class="files">app.js 인터랙티브 기능</div>
+                    </div>
+                    <div class="team-member">
+                        <h4>📋 팀장</h4>
+                        <div class="role">통합 및 관리</div>
+                        <div class="files">Pull Request 리뷰</div>
+                    </div>
+                </div>
+
+                <h4>📝 팀원A - HTML 구조 (index.html)</h4>
+                <div class="code-block">
+<span class="keyword">&lt;!DOCTYPE html&gt;</span>
+<span class="keyword">&lt;html</span> <span class="string">lang="ko"</span><span class="keyword">&gt;</span>
+<span class="keyword">&lt;head&gt;</span>
+    <span class="keyword">&lt;meta</span> <span class="string">charset="UTF-8"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;meta</span> <span class="string">name="viewport" content="width=device-width, initial-scale=1.0"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;title&gt;</span>우리팀 소개<span class="keyword">&lt;/title&gt;</span>
+    <span class="keyword">&lt;link</span> <span class="string">rel="stylesheet" href="style.css"</span><span class="keyword">&gt;</span>
+<span class="keyword">&lt;/head&gt;</span>
+<span class="keyword">&lt;body&gt;</span>
+    <span class="keyword">&lt;header&gt;</span>
+        <span class="keyword">&lt;h1</span> <span class="string">id="title"</span><span class="keyword">&gt;</span>1차 프로젝트 팀 소개<span class="keyword">&lt;/h1&gt;</span>
+    <span class="keyword">&lt;/header&gt;</span>
+    <span class="keyword">&lt;main&gt;</span>
+        <span class="keyword">&lt;section</span> <span class="string">id="team-info"</span><span class="keyword">&gt;</span>
+            <span class="keyword">&lt;div</span> <span class="string">class="team-member"</span><span class="keyword">&gt;</span>팀장: GitHub 마스터<span class="keyword">&lt;/div&gt;</span>
+            <span class="keyword">&lt;div</span> <span class="string">class="team-member"</span><span class="keyword">&gt;</span>팀원A: HTML 전문가<span class="keyword">&lt;/div&gt;</span>
+            <span class="keyword">&lt;div</span> <span class="string">class="team-member"</span><span class="keyword">&gt;</span>팀원B: JS 개발자<span class="keyword">&lt;/div&gt;</span>
+            <span class="keyword">&lt;div</span> <span class="string">class="team-member"</span><span class="keyword">&gt;</span>팀원C: CSS 디자이너<span class="keyword">&lt;/div&gt;</span>
+        <span class="keyword">&lt;/section&gt;</span>
+        <span class="keyword">&lt;button</span> <span class="string">id="hello-btn"</span><span class="keyword">&gt;</span>팀 인사하기<span class="keyword">&lt;/button&gt;</span>
+    <span class="keyword">&lt;/main&gt;</span>
+    <span class="keyword">&lt;script</span> <span class="string">src="app.js"</span><span class="keyword">&gt;</span><span class="keyword">&lt;/script&gt;</span>
+<span class="keyword">&lt;/body&gt;</span>
+<span class="keyword">&lt;/html&gt;</span>
+                </div>
+
+                <h4>🎨 팀원C - CSS 스타일링 (style.css)</h4>
+                <div class="code-block">
+<span class="keyword">body</span> {
+    <span class="string">font-family:</span> Arial, sans-serif;
+    <span class="string">background:</span> linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    <span class="string">margin:</span> 0;
+    <span class="string">padding:</span> 20px;
+}
+
+<span class="keyword">header</span> {
+    <span class="string">text-align:</span> center;
+    <span class="string">color:</span> white;
+    <span class="string">margin-bottom:</span> 2rem;
+}
+
+<span class="keyword">#team-info</span> {
+    <span class="string">background:</span> white;
+    <span class="string">padding:</span> 2rem;
+    <span class="string">border-radius:</span> 10px;
+    <span class="string">box-shadow:</span> 0 5px 15px rgba(0,0,0,0.1);
+    <span class="string">margin-bottom:</span> 1rem;
+}
+
+<span class="keyword">.team-member</span> {
+    <span class="string">background:</span> #f8f9fa;
+    <span class="string">padding:</span> 1rem;
+    <span class="string">margin:</span> 10px 0;
+    <span class="string">border-radius:</span> 5px;
+    <span class="string">border-left:</span> 4px solid #667eea;
+}
+
+<span class="keyword">#hello-btn</span> {
+    <span class="string">background:</span> #667eea;
+    <span class="string">color:</span> white;
+    <span class="string">padding:</span> 12px 24px;
+    <span class="string">border:</span> none;
+    <span class="string">border-radius:</span> 5px;
+    <span class="string">cursor:</span> pointer;
+    <span class="string">font-size:</span> 1rem;
+}
+
+<span class="keyword">#hello-btn:hover</span> {
+    <span class="string">background:</span> #5a6fd8;
+}
+                </div>
+
+                <h4>⚙️ 팀원B - JavaScript 기능 (app.js)</h4>
+                <div class="code-block">
+<span class="comment">// 페이지 로드 완료 시 실행</span>
+<span class="keyword">document</span>.<span class="keyword">addEventListener</span>(<span class="string">'DOMContentLoaded'</span>, <span class="keyword">function</span>() {
+    <span class="comment">// 버튼 클릭 이벤트 설정</span>
+    <span class="keyword">const</span> helloBtn = <span class="keyword">document</span>.<span class="keyword">getElementById</span>(<span class="string">'hello-btn'</span>);
+    <span class="keyword">const</span> title = <span class="keyword">document</span>.<span class="keyword">getElementById</span>(<span class="string">'title'</span>);
+    
+    helloBtn.<span class="keyword">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+        <span class="comment">// 클릭시 제목 변경 및 알림</span>
+        title.<span class="keyword">textContent</span> = <span class="string">'🎉 안녕하세요! 우리 팀입니다!'</span>;
+        title.<span class="keyword">style</span>.<span class="keyword">animation</span> = <span class="string">'bounce 1s ease-in-out'</span>;
+        
+        <span class="keyword">alert</span>(<span class="string">'GitHub 협업으로 만든 첫 번째 팀 프로젝트입니다!'</span>);
+    });
+    
+    <span class="comment">// 팀원 카드에 호버 효과 추가</span>
+    <span class="keyword">const</span> teamMembers = <span class="keyword">document</span>.<span class="keyword">querySelectorAll</span>(<span class="string">'.team-member'</span>);
+    teamMembers.<span class="keyword">forEach</span>(<span class="keyword">function</span>(member) {
+        member.<span class="keyword">addEventListener</span>(<span class="string">'mouseenter'</span>, <span class="keyword">function</span>() {
+            <span class="keyword">this</span>.<span class="keyword">style</span>.<span class="keyword">transform</span> = <span class="string">'scale(1.05)'</span>;
+            <span class="keyword">this</span>.<span class="keyword">style</span>.<span class="keyword">transition</span> = <span class="string">'transform 0.2s'</span>;
+        });
+        
+        member.<span class="keyword">addEventListener</span>(<span class="string">'mouseleave'</span>, <span class="keyword">function</span>() {
+            <span class="keyword">this</span>.<span class="keyword">style</span>.<span class="keyword">transform</span> = <span class="string">'scale(1)'</span>;
+        });
+    });
+});
+                </div>
+
+                <h4>🔄 실습 진행 순서</h4>
+                <div class="workflow-box">
+                    <div class="workflow-step">
+                        <div class="number">1</div>
+                        <div><strong>팀원A:</strong> HTML 파일 작성 후 커밋/푸시 → Pull Request</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">2</div>
+                        <div><strong>팀장:</strong> Pull Request 리뷰 후 develop에 병합</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">3</div>
+                        <div><strong>팀원C:</strong> Pull 받아서 HTML 확인 후 CSS 작성 → Pull Request</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">4</div>
+                        <div><strong>팀원B:</strong> Pull 받아서 HTML/CSS 확인 후 JS 작성 → Pull Request</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">5</div>
+                        <div><strong>팀장:</strong> 모든 Pull Request 병합 후 main에 최종 배포</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">6</div>
+                        <div><strong>전체:</strong> 완성된 웹페이지 함께 테스트해보기! 🎉</div>
+                    </div>
+                </div>
+            </div>
+        </div>        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">8</div>
+                <div>
+                    <h3>✅ 팀원별 준비 체크리스트</h3>
+                    <p>각자 확인해야 할 사항들</p>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="team-overview">
+                    <div class="team-member">
+                        <h4>🔧 팀장 체크리스트</h4>
+                        <div class="checklist">
+                            <label><input type="checkbox"> 팀원 3명의 GitHub 계정명 수집</label>
+                            <label><input type="checkbox"> GitHub 저장소에서 팀원 초대</label>
+                            <label><input type="checkbox"> 모든 팀원이 초대 수락 확인</label>
+                            <label><input type="checkbox"> develop 브랜치 생성 및 푸시</label>
+                            <label><input type="checkbox"> 파일 분담표 작성 및 공유</label>
+                            <label><input type="checkbox"> 팀 규칙 문서 작성</label>
+                            <label><input type="checkbox"> Pull Request 리뷰 방법 숙지</label>
+                            <label><input type="checkbox"> 충돌 해결 방법 숙지</label>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member">
+                        <h4>👥 모든 팀원 공통 체크리스트</h4>
+                        <div class="checklist">
+                            <label><input type="checkbox"> GitHub 계정 생성 완료</label>
+                            <label><input type="checkbox"> VS Code 설치 및 실행 확인</label>
+                            <label><input type="checkbox"> GitHub 확장 프로그램 설치</label>
+                            <label><input type="checkbox"> VS Code에서 GitHub 로그인</label>
+                            <label><input type="checkbox"> 팀 저장소 초대 수락</label>
+                            <label><input type="checkbox"> 저장소 Clone 완료</label>
+                            <label><input type="checkbox"> 개인 브랜치 생성 테스트</label>
+                            <label><input type="checkbox"> 첫 커밋/푸시 테스트 완료</label>
+                            <label><input type="checkbox"> Pull Request 생성 방법 숙지</label>
+                            <label><input type="checkbox"> 팀 소통 창구(카톡/디스코드) 참여</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" onclick="toggleStep(this)">
+                <div class="step-number">9</div>
+                <div>
+                    <h3>❓ 자주 묻는 질문 (FAQ)</h3>
+                    <p>문제 상황별 해결 방안</p>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="alert alert-info">
+                    <strong>💡 팁:</strong> 문제가 발생하면 당황하지 말고 하나씩 차근차근 해결해보세요!
+                </div>
+
+                <h4>🤔 자주 발생하는 문제들</h4>
+                
+                <div style="margin: 1rem 0; border: 1px solid #e9ecef; border-radius: 5px;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-bottom: 1px solid #e9ecef;">
+                        <strong>Q1: VS Code에서 GitHub 로그인이 안 돼요!</strong>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <strong>해결 방법:</strong>
+                        <ol>
+                            <li>Ctrl+Shift+P → "GitHub: Sign in" 검색</li>
+                            <li>브라우저가 자동으로 열리면 GitHub 로그인</li>
+                            <li>"Authorize Visual-Studio-Code" 클릭</li>
+                            <li>VS Code로 돌아와서 "Open" 클릭</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin: 1rem 0; border: 1px solid #e9ecef; border-radius: 5px;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-bottom: 1px solid #e9ecef;">
+                        <strong>Q2: 브랜치가 안 만들어져요!</strong>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <strong>해결 방법:</strong>
+                        <ol>
+                            <li>먼저 최소 한 번은 커밋이 있어야 합니다</li>
+                            <li>빈 파일이라도 만들어서 첫 커밋을 해보세요</li>
+                            <li>Source Control에서 "Initialize Repository" 버튼 확인</li>
+                            <li>그래도 안 되면 팀장에게 도움 요청</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin: 1rem 0; border: 1px solid #e9ecef; border-radius: 5px;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-bottom: 1px solid #e9ecef;">
+                        <strong>Q3: Push할 때 "permission denied" 오류가 나요!</strong>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <strong>해결 방법:</strong>
+                        <ol>
+                            <li>GitHub 저장소에 초대받았는지 확인</li>
+                            <li>초대 이메일에서 "Accept invitation" 클릭했는지 확인</li>
+                            <li>VS Code에서 올바른 GitHub 계정으로 로그인했는지 확인</li>
+                            <li>팀장에게 Write 권한이 있는지 확인 요청</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin: 1rem 0; border: 1px solid #e9ecef; border-radius: 5px;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-bottom: 1px solid #e9ecef;">
+                        <strong>Q4: Pull Request는 어디서 만들어요?</strong>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <strong>해결 방법:</strong>
+                        <ol>
+                            <li>본인 브랜치에서 푸시 완료 후</li>
+                            <li>GitHub 웹사이트 → 저장소 페이지 이동</li>
+                            <li>"Pull requests" 탭 클릭</li>
+                            <li>"New pull request" 버튼 클릭</li>
+                            <li>본인 브랜치 → develop으로 설정</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin: 1rem 0; border: 1px solid #e9ecef; border-radius: 5px;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-bottom: 1px solid #e9ecef;">
+                        <strong>Q5: 충돌이 발생했는데 무서워요! 😱</strong>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <strong>해결 방법:</strong>
+                        <ol>
+                            <li><strong>침착하세요!</strong> 충돌은 자연스러운 현상입니다</li>
+                            <li>VS Code에서 충돌 파일을 열어보세요</li>
+                            <li>색깔로 구분된 코드 중 어떤 걸 사용할지 선택</li>
+                            <li>확신이 안 서면 관련 팀원과 상의하세요</li>
+                            <li>해결 후 "Mark as Resolved" → 커밋/푸시</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin: 1rem 0; border: 1px solid #e9ecef; border-radius: 5px;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-bottom: 1px solid #e9ecef;">
+                        <strong>Q6: 팀원의 파일이 내 컴퓨터에 안 보여요!</strong>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <strong>해결 방법:</strong>
+                        <ol>
+                            <li>Source Control에서 Pull 버튼 (⬇️) 클릭</li>
+                            <li>또는 "..." 메뉴 → "Pull" 선택</li>
+                            <li>develop 브랜치로 이동해서도 Pull 해보기</li>
+                            <li>그래도 안 되면 새로 Clone 받아보기</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <h4>🆘 긴급 상황 대처법</h4>
+                <div class="alert alert-warning">
+                    <strong>뭔가 완전히 꼬였다면:</strong>
+                    <ol>
+                        <li><strong>백업:</strong> 현재 작업 중인 파일들을 다른 폴더에 복사</li>
+                        <li><strong>새로 시작:</strong> 저장소를 새로 Clone 받기</li>
+                        <li><strong>파일 복원:</strong> 백업한 파일들을 새로운 폴더에 붙여넣기</li>
+                        <li><strong>다시 시작:</strong> 브랜치 생성부터 차근차근 다시</li>
+                    </ol>
+                </div>
+
+                <h4>📞 도움 요청하기</h4>
+                <div class="workflow-box">
+                    <div class="workflow-step">
+                        <div class="number">1</div>
+                        <div><strong>팀 단체톡에 SOS:</strong> "GitHub에서 문제 발생! 도와주세요 🆘"</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">2</div>
+                        <div><strong>상황 설명:</strong> 어떤 작업 중에 무엇이 안 되는지 구체적으로</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">3</div>
+                        <div><strong>스크린샷:</strong> 오류 메시지나 화면을 캡처해서 공유</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="number">4</div>
+                        <div><strong>팀원 협력:</strong> 혼자 해결하려 하지 말고 팀의 도움 받기</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-success">
+            <h3>🎉 축하합니다!</h3>
+            <p><strong>이제 여러분은 GitHub 팀 협업 전문가입니다!</strong></p>
+            <ul>
+                <li>✅ 4명이서 하나의 프로젝트를 체계적으로 관리할 수 있습니다</li>
+                <li>✅ VS Code만으로 모든 Git 작업을 할 수 있습니다</li>
+                <li>✅ 충돌이 발생해도 침착하게 해결할 수 있습니다</li>
+                <li>✅ Pull Request로 코드 리뷰와 협업이 가능합니다</li>
+            </ul>
+            <p><strong>이제 학원 1차 조별 프로젝트를 성공적으로 완료하세요! 🚀</strong></p>
+        </div>
+
+        <div class="footer" style="text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 10px; margin-top: 2rem;">
+            <h3>📚 추가 학습 자료</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 1rem 0;">
+                <div style="background: white; padding: 1rem; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <h4>🔧 VS Code 공식 Git 가이드</h4>
+                    <p>VS Code에서 Git 사용법에 대한 공식 문서</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <h4>📖 GitHub 협업 모범 사례</h4>
+                    <p>실무에서 사용하는 GitHub 협업 전략들</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <h4>🎯 프로젝트 관리 템플릿</h4>
+                    <p>다양한 프로젝트 유형별 GitHub 활용법</p>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; color: #6c757d;">
+                <strong>Made with ❤️ for Team Success</strong><br>
+                GitHub 협업의 시작은 언제나 설렙니다. 함께 성장해요! 🌟
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleStep(header) {
+            const step = header.parentElement;
+            const content = step.querySelector('.step-content');
+            const isActive = step.classList.contains('active');
+            
+            // 모든 스텝 닫기
+            document.querySelectorAll('.step').forEach(s => {
+                s.classList.remove('active');
+                s.querySelector('.step-content').style.display = 'none';
+            });
+            
+            // 클릭한 스텝만 토글
+            if (!isActive) {
+                step.classList.add('active');
+                content.style.display = 'block';
+            }
+        }
+
+        // 체크박스 상태 저장
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            // 저장된 체크박스 상태 복원
+            checkboxes.forEach((checkbox, index) => {
+                const saved = localStorage.getItem(`checkbox-${index}`);
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                }
+                
+                // 체크박스 상태 변경 시 저장
+                checkbox.addEventListener('change', function() {
+                    localStorage.setItem(`checkbox-${index}`, this.checked);
+                });
+            });
+
+            // 진행률 계산 및 표시
+            function updateProgress() {
+                const totalCheckboxes = checkboxes.length;
+                const checkedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                const progress = Math.round((checkedCheckboxes / totalCheckboxes) * 100);
+                
+                // 진행률 표시 (있다면)
+                const progressElement = document.getElementById('progress');
+                if (progressElement) {
+                    progressElement.textContent = `진행률: ${progress}%`;
+                }
+            }
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateProgress);
+            });
+            
+            updateProgress();
+        });
+
+        // 스무스 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
